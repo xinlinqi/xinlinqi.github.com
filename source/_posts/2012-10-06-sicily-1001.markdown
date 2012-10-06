@@ -6,7 +6,7 @@ comments: true
 categories: Sicily
 ---
 
-哎呀呀，还是回归正题吧，建立这个博客的目的咧，就是为了面试了（你也太功利了点吧，biu~）
+哎呀呀，还是回归正题吧，建立这个博客的目的咧，就是因为本人有洁癖（你也太直接了点吧，biu~）
 
 这学期有门算法课，于是国庆这几天一直和西西里娘做伴。真是美死了！AC数也翻番了耶~！（如果你之前只AC了一道的话，翻番了也只有2道啊—————你知道的太多了，拖出去砍了！）
 
@@ -34,8 +34,7 @@ categories: Sicily
 <!-- more -->		
 
 代码如下所示
-
-```
+{% codeblock lang:cpp %}
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -72,6 +71,6 @@ int main(void){
 	}
 	return 0;
 }
-```
+{% endcodeblock %}
 
 哦也，第一篇有代码的markdown博客达成，虽然没有高亮，但是效果也还是很不错的嘛~~

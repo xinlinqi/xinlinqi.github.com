@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Sicily 2501. 算算式"
+date: 2012-10-06 17:25
+comments: true
+categories: Sicily
+---
+
+这题是昨晚刚做的，本想挑战一下自己，就选了一道AC数只有230的这道。想了老半天没想出怎么解，然后宿舍一位算法帝路过，这个嘛，二分嘛！有如当头棒喝= =！
+
+不过做这题的时候还是WA了好几次，晒下我的辉煌战绩:
+
+{%img /images/sicily_2501.png %}
+
+<!-- more -->
+后来看网上的题解，然后对照我的运行结果和他的运行结果，发现k=0的时候竟然返回0才是正确的！这尼玛，瞬间被雷劈的感觉。好吧，那就返回0吧，果然AC了。。
+就这样喽，具体代码如下：
+
+{% codeblock lang:cpp %}
+// Problem#: 2501
+// Submission#: 1505175
+// The source code is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+// URI: http://creativecommons.org/licenses/by-nc-sa/3.0/
+// All Copyright reserved by Informatic Lab of Sun Yat-sen University
+#include <iostream>
+using namespace std;
+
+const int digit = 9901;
+
+int pow2(int n, int k){
+    if(k == 1){
+        return n % digit;
+    }
+    if(k % 2 == 0){
+        int temp = pow2(n, k/2);
+        return (temp * temp) % digit;
+    }else{
+        int temp = pow2(n, (k - 1)/2);
+		temp = (temp * temp) % digit;
+        return (temp * n) % digit;
+    }
+}
+
+int addition(int n, int k){
+    if(n == 0 || k == 0){
+        return 0;
+    }
+    if(k == 1){
+        return n % digit;
+    }
+    if(k % 2 == 0){
+        return ((pow2(n, k / 2) + 1) * addition(n, k/2)) % digit;
+    }else{
+        int temp = pow2(n, (k + 1) / 2);
+        return ((temp + 1) * addition(n, (k-1)/2) + temp) % digit ;
+    }
+}
+
+int main(void){
+    int n, k;
+    cin >> n >> k;
+    cout << addition(n, k) << endl;
+    return 0;
+}
+{% endcodeblock %}
+
+
+说到网上的题解，大部分都是用费马小定理，也就是欧拉定理的一个特殊情况。具体见[费马1](http://blog.csdn.net/luojiayu14/article/details/7089499)，以及[费马2](http://lcc3536.blog.163.com/blog/static/13246991720114981735219/)，前者代码更简单。。。因为他好像用到另外一个很强大的东西，就是说当a和p互质的时候，`(a + a^2 + ... + a^p-1) mod p = 0`，我取了一些特例，都是对的，但就是无法证明。。。于是就这样喽，数学太烂了。如果以后遇到，我就用第二种解法做！！哼~
