@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Sicily"
+date: 2012-10-06 12:39
+comments: true
+categories: Sicily
+---
+
+
+与其它博客系统一样，Octopress也有主题功能。如果你有JavaScript与CSS编写能力的话，照着默认主题自己写一个应该不太难。但是我只会一点JavaScript皮毛，会看不会写。
+
+这也就让我有迫切的需求要装一个主题来美化一下我的博客，不懂的话利用其它大神们的劳动成果是唯一的方法，那问题来了，拿到了主题之后怎么装呢？
+
+#安装Octopress主题
+通过一轮搜索之后发现，Octopress的主题一般都是放在github上托管的，那么这类主题的安装方法是：
+
+* 首先找到这个主题的github地址，比如我这个博客用的主题是`https://github.com/bkutil/bootstrap-theme.git`
+* 然后用git的clone方法把它下载到你本地博客根目录的.themes文件夹中：
+        
+        $ git clone https://github.com/bkutil/bootstrap-theme.git ./.themes/bootstrap-theme
+
+* 下完之后你会发现在.themes文件夹下多了个bootstrap-theme文件夹，这就是主题
+* 然后我们要安装，执行`rake install['主题名']`就可以安装了，在这个例子里面就是：
+        
+        rake install['bootstrap-theme']
+
+* 最后当然要`rake generate`，然后预览一下`rake preview`，感觉不错之后就可以上传了
+
+<!-- more -->
+
+#几款主题推荐
+在Octopress的github上，推荐了一些主题，其中几个都挺不错的，可以看一看
+> List of Octopress Themes
+
+> https://github.com/imathis/octopress/wiki/List-Of-Octopress-Themes
+{% gist 2436351 %}
+##Bootstrap-theme
+####Another Twitter Bootstrap based theme [preview](http://bootstrap-theme.kutilovi.cz/)
+这个就是你正在看的这个博客所用的主题，个人感觉还不错
+##slash
+轻量级的主题，小清新 [preview](http://zespia.tw/Octopress-Theme-Slash/)
+
+![Alt text](/images/artical-image/slash-preview.png)
+
+##object-octopress-theme
+极简的主题，感觉非常不错 [preview](http://k.ernel.org)
+##MrZhang.me
+一个中国人写的主题，风格比较像记事博客 [preview](http://mrzhang.me/blog/blog-equals-github-plus-octopress.html)
+
+##compbits
+看起来比较有科技感 [preview](http://blog.iwinux.info/)
