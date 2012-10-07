@@ -1,0 +1,18 @@
+---
+layout: post
+title: "sicily 1153."
+date: 2012-10-07 10:45
+comments: true
+categories: Sicily
+---
+
+* 同样是之前做的，抄自以前的[博客](http://blog.csdn.net/xinlinqi8/article/details/8039203)
+
+* 题目地址：[http://soj.me/1153](http://soj.me/1153)
+
+* 解题思路：深搜+剪枝。在这道题目中，不剪枝的话会超时，[1152. 简单的马周游问题](http://soj.me/1152) 则不会；剪枝就是在深搜过程中，先去走扩展点少的格子，譬如当前位置为18，那么应该走1（如果1没被访问过，因为1的下一步可以走的格子数最少。）
+
+<!--more-->
+
+* 代码如下：
+

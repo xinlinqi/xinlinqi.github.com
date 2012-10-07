@@ -10,6 +10,8 @@ categories: Sicily
 
 这学期有门算法课，于是国庆这几天一直和西西里娘做伴。真是美死了！AC数也翻番了耶~！（如果你之前只AC了一道的话，翻番了也只有2道啊—————你知道的太多了，拖出去砍了！）
 
+<!--more-->
+
 关于Sicily1001，正题Start！抄自我之前的一个临时的所谓技术[博客](http://blog.csdn.net/xinlinqi8/article/details/8038020)。。。
 
 * 题目地址：[http://soj.me/1001](http://soj.me/1001)
