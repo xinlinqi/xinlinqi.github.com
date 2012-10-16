@@ -1,0 +1,57 @@
+---
+layout: post
+title: "Sicily 1934. 移动小球"
+date: 2012-10-15 23:14
+comments: true
+categories: Sicily
+---
+好几天没有写东西上来了，一来是建博初期的写作热情已经渐渐淡了，二来是这几天根本就没怎么刷题，一刷就卡住。。
+
+* 题目地址：[http://soj.me/1934](http://soj.me/1934)
+
+* 题目大意就是挪动小球啦~按常规思路来解，就是不断的把小球从一个地方插到另一个地方去，先搜索找到要移动的目的位置，然后再挪出空位，大概是O(n)的复杂度，会超时。
+
+很多东西如果没接触过，任凭你怎么想，大概也想不出个所以然来。比如谈恋爱，比如刷题。然后就去网上找了题解。他的思路真的让我大开眼界。用两个数组保存每个小球的相对位置！也就是保存了一个小球的左右两个小球即可！
+
+* 贴上代码
+<!-- more-->
+{% codeblock lang:cpp%}
+#include <iostream>
+using namespace std;
+int rgt[500010], lft[500010];	// 关于这个，不要在main函数里面声明，会栈溢出。局部变量是放在stack里面，全局变量则放在heap中。
+
+void link(int left, int right){
+	rgt[left] = right;
+	lft[right] = left;
+}
+
+int main(void){
+
+	int t, n, m, c, x, y;
+	cin >> t;
+	while(t--){
+		cin >> n >> m;
+		for(int i=0; i <= n; i++){
+			link(i, i+1);
+		}
+		for(int i=0; i < m; i++){
+			cin >> c >> x >> y;
+			link(lft[x], rgt[x]);	//首先将x的左边和右边小球放在一起。
+			if(c == 1){
+				link(lft[y], x);	//然后把y的左边小球放在x的左边。
+				link(x, y);		//把y放在x的右边，插入x成功。
+			}else{
+				link(x, rgt[y]);	//首先把y的右边小球放在x的右边。
+				link(y, x);		//再把x放在y的右边。插入成功。
+			}
+		}
+		int start = rgt[0];
+		while(start != n+1){
+			cout << start << " ";
+			start = rgt[start];
+		}
+		cout << endl;
+	}
+	return 0;
+}
+{% endcodeblock %}

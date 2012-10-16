@@ -1,0 +1,143 @@
+---
+layout: post
+title: "Sicily 1155. Can I Post the letter"
+date: 2012-10-09 15:36
+comments: true
+categories: Sicily
+---
+
+* 题目地址：[http://soj.me/1155](http://soj.me/1155)
+* 解题思路：首先我用的是深搜，结果超时。。。将节点按能到达的大小排序，也超时。。。
+
+然后突然想到，这个不是和[校门外的树](http://soj.me/1145)是同一道题吗？就是用一个数组保存某个节点是否被访问到，如果所有节点都能被访问到，则说明能从0到N-1（这神一般的逻辑，待会儿狠狠地批一下。。。）。然后花了2、3分钟写好，将题目给出的测试用例试了一下，提交，AC了，。。见`代码1`
+
+但是咧，这其实是错误的解法。Sicily的测试系统过了，只能说明Sicily这道题的测试数据太弱了，这个算法是错的。譬如给出以下用例：
+```
+4
+2
+0 2
+1 3
+```
+用我的程序跑是可以到达的，而画个图，很明显，从0是到不了3的，也就是应该是到达不了的。。
+
+<!-- more-->
+
+然后我就去网上搜题解。看到一个神奇的用了沃尔算法的[题解](http://blog.csdn.net/detective_xin/article/details/7215598)，听上去很炫，但看代码之后才发现是最最最直接的解法！我根据这个算法重新提交了，AC。竟然没超时，三重循环耶！见`代码2`。
+
+最后我看了另一个题解，让我感到气愤！为什么我的深搜TLE，他的深搜就AC？知道深搜可以解题后，我拿回第一次提交的代码，重新改。见`代码3`
+
+下面贴出代码：
+
+* 代码1
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int canVisit[200];
+bool hasPath;
+
+int main(void){
+	int n, m, a, b;
+	while(cin >> n && n){
+		cin >> m;
+		hasPath = true;
+		memset(canVisit, 0, sizeof(canVisit));
+		for(int i=0; i < m; i++){
+			cin >> a >> b;
+			for(int i = a; i <= b; i++){
+				canVisit[i] = 1;
+			}
+		}
+		for(int i=0; i < n; i++){
+			if (!canVisit[i]){
+				hasPath = false;
+				break;
+			}
+		}
+		if(hasPath){
+			cout << "I can post the letter" << endl;
+		}else{
+			cout << "I can't post the letter" << endl;
+		}
+	}
+	return 0;
+}
+{% endcodeblock%}
+
+* 代码2
+{% codeblock lang:cpp %}
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main(void){
+	int n, m, arr[200][200], a, b;
+	while(cin >> n && n){
+		memset(arr, 0, sizeof(arr));
+		cin >> m;
+		for(int i=0; i < m; i++){
+			cin >> a >> b;
+			arr[a][b] = 1;
+		}
+		for(int i=0; i < n; i++){
+			for(int j=0; j < n; j++){
+				if(arr[i][j] == 1){
+					for(int k=0; k < n; k++){
+						if(arr[j][k] == 1){
+							arr[i][k] = 1;
+						}
+					}
+				}
+			}
+		}
+		if(arr[0][n-1] == 1){
+			cout << "I can post the letter" << endl;
+		}else{
+			cout << "I can't post the letter" << endl;
+		}
+	}
+	return 0;
+}
+{% endcodeblock %}
+
+代码3
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <cstring>
+using namespace std;
+int n,m,t1,t2;
+int canReach[210][210];
+int hasReached[210];
+void dfs(int t)
+{
+    hasReached[t] = 1;
+    for(int i = 0; i < n; i++)
+    if(!hasReached[i] && canReach[t][i])
+        dfs(i);
+}
+int main()
+{
+    while(true)
+    {
+        cin >> n;
+        if(n == 0)break;
+        cin>> m;
+        memset(canReach,0,sizeof(canReach));
+        memset(hasReached,0,sizeof(hasReached));
+        for(int i = 0; i < m; i++)
+        {
+            cin >> t1>>t2;
+            canReach[t1][t2] = 1;
+        }
+        dfs(0);
+        if(hasReached[n-1])
+            cout <<"I can post the letter"<<endl;
+        else
+            cout <<"I can't post the letter"<<endl;
+    }
+    return 0;
+}
+{% endcodeblock%}
+
+* 总结： 一道AC1200多的题目，也让我纠结这么久，真是像某圆说的，我弱爆了！！！

@@ -1,0 +1,96 @@
+---
+layout: post
+title: "sicily 1218.纪念邮票"
+date: 2012-10-08 17:25
+comments: true
+categories: Sicily
+---
+
+* 题目地址：[http://soj.me/1218](http://soj.me/1218)
+
+* 解题心得：首先最容易想到的是，从1遍历到N，既然知道了a,m，就可以解方程得出b，然后这样的时间复杂度应该是O(N)，但是写完才发现N最大可以取10^9 于是就简单试了下，果然好长时间没反应。
+
+然后就这样放着过了一天，今天中午突然来了灵感，其实不就是求M的约数吗？连续的数相加，都可以表示为两个整数的乘积。
+
+然后又开始写啊写。第一次提交CE。。。原来用了sqrt没加math；第二次提交继续CE，原来是用了qsort没加stalib.h;第三次提交WA,调试发现有些东西没注意，改之。再提交RE，然后就纠结了，不断调试，用各种数据测试。两次RE后，总算AC了。好艰难！
+
+例行晒下我的辉煌战绩！
+
+{%img /images/sicily1218.png%}
+<!--more-->
+
+最后贴个不忍卒读的代码，改的次数太多了。。。
+
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+using namespace std;
+
+struct pairs{
+	int a;
+	int b;
+}p[400];
+
+int compare(const void*a, const void*b){
+	pairs pa = *(pairs*)a;
+	pairs pb = *(pairs*)b;
+	return pa.a - pb.a;
+}
+
+int dArr[400];
+int getDivisors(int m, int n){
+	int temp = sqrt((double)m);
+	int max = temp, ret = 0;
+	dArr[ret++] = 1;
+	dArr[ret++] = m;
+	for(int i=2; i <= max+1 && i <= n; i++){
+		if(m % i == 0){
+			dArr[ret++] = i;
+			dArr[ret++] = m / i;
+		}
+	}
+	return ret;
+}
+
+int main(void){
+	int n, m;
+	cin >> n >> m;
+	if(n > m) n = m;
+	int len = getDivisors(m, n), index=0, temp, d, tempa, tempb;
+	for(int i=0; i < len; i = i + 1){
+		d = m / dArr[i];
+		temp = d * 2 + dArr[i] - 1;
+		if(temp % 2 == 0){
+			tempa = dArr[i] - temp / 2;
+			if(tempa == 0) tempa = 1;
+			tempb = temp / 2;
+			if(tempb <= n && tempa <= tempb && tempa > 0){
+				p[index].a = tempa;
+				p[index++].b = tempb;
+			}
+		}
+		temp = 2 * dArr[i] + d - 1;
+		if(temp % 2 == 0){
+			tempa = 2 * dArr[i] - temp / 2;
+			if(tempa == 0) tempa = 1;
+			tempb = temp / 2;
+			if( tempb <= n && tempa <= tempb && tempa >= 0){
+				p[index].a = tempa;
+				p[index++].b = tempb;
+			}
+		}
+
+	}
+	qsort(p, index, sizeof(pairs), compare);
+
+	for(int i=0; i < index; i++){
+		printf("[%d,%d]\n", p[i].a, p[i].b);
+		while(i < index && p[i].a == p[i+1].a){
+			i++;
+		}
+	}
+	return 0;
+}
+{% endcodeblock%}

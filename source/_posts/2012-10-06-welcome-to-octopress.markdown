@@ -3,7 +3,7 @@ layout: post
 title: "octopress 基本上搭建完成了!!!"
 date: 2012-10-06 15:02
 comments: true
-categories: life
+categories: Life
 ---
 
 经过一个上午的奋战，我终于在Github上搭建了自己的博客。

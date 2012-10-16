@@ -1,0 +1,117 @@
+---
+layout: post
+title: "Sicily 1028. Hanoi Tower Sequence"
+date: 2012-10-09 21:35
+comments: true
+categories: Sicily
+---
+
+* 题目地址：[http://soj.me/1028](http://soj.me/1028)
+
+* 解题思路：原来以为这是一个水题，做一下消遣一下时间，因为AC了1700多个。做了之后才发现，远远不是，如果发现不了规律，那就跪了。。
+
+我自己写了一个生成汉诺塔序列的函数，见代码中注释部分的Hanoi方法，生成几个数之后，渐渐找出规律，如下：
+
+设n为某个数字，紧跟着的是出现n的位置的序列。
+
+n | 序列
+:-|:---
+1 | 1, 3, 5, 7, 9....
+2 | 2, 6, 10, 14...
+3 | 4, 12, 20, 28...
+4 | 8, 24, 40, 56...
+
+这样大概就能找出规律了，`2^n-1 + 2^n-1 * c = p `，继而推出`2^n-1(2c+1) = p`也就是只需要找到p的最大的2的倍数的约数，即可求解。
+
+于是写了一个大整数除法，就搞定噻啦~~一次AC，Yahoo！！
+
+<!--more-->
+
+代码如下：
+
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <string>
+#include <cstring>
+using namespace std;
+
+
+//void Hanoi(int n){
+//	if(n == 1){
+//		cout << n << " ";
+//	}else{
+//		Hanoi(n-1);
+//		cout << n << " ";
+//		Hanoi(n-1);
+//	}
+//}
+
+int getMod(string str, int toBeMod){
+	int temp = 0;
+	for(int i=0; i < str.length(); i++){
+		temp *= 10;
+		temp += str[i];
+		temp %= toBeMod;
+	}
+	return temp;
+}
+
+string bitNumDivide(string p, int toDivide){
+	int temp = 0, tempa;
+	char res[110];
+	memset(res, 0, sizeof(res));
+	res[0] = '0';
+	for(int i=0, j=0; i < p.length(); i++){
+		temp *= 10;
+		temp += p[i] - '0';
+		if(temp < toDivide){
+			if(i != 0){
+				res[j++] = '0';
+			}
+		}else{
+			res[j++] = temp / toDivide + '0';
+			temp %= toDivide; 
+		}
+	}
+	return res;
+}
+
+//int getBits(string p){
+//	int index = 0;
+//	string temp = p;
+//	while(temp.compare("0") != 0){
+//		temp = bitNumDivide(temp, 2);
+//		if(temp.compare("0") != 0){
+//			index++;
+//		}
+//	}
+//	return index;
+//}
+
+int main(void){
+	int t, count;
+	string p;
+/*
+	while(cin >> t){
+		Hanoi(t);
+	}
+*/
+	cin >> t;
+	for(count=1; count <= t; count++){
+		int index = 0;
+		cin >> p;
+		cout << "Case " << count << ": ";
+		while(getMod(p, 2) == 0){
+			index++;
+			p = bitNumDivide(p, 2);
+		}
+		cout << index+1 << endl;
+		if(count + 1 <= t){
+			cout << endl;
+		}
+	}
+	return 0;
+}
+{% endcodeblock %}
+
+* 今天只水了3道题。。和最高纪录11道相比简直天和地！虽然有上课的因素在，但是总感觉现在刷水题越来越难了，题目都不水了。。多学点算法，让不水的水起来！
