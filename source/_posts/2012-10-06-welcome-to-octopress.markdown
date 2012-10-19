@@ -119,6 +119,14 @@ categories: Life
 
 最后，总算搭建好了一个博客，其实我之前已经有了一个在新浪SAE上的[博客](http://xinlinqi.sinaapp.com)了，只是没有怎么用，现在搭建了一个，也许也不会怎么用。。囧~算了，还是写些东西，记录下生活的点点滴滴吧！
 
+## 遇到的Errors
+* undefined method `Py_IsInitialized' for RubyPython::Python:Module
+
+{% img /images/error_20121019.png%}
+
+解决方法：安装python, pygment, 然后`gem update`, `bundle update`
+
+
 ## 参考文献 O.O
 
 * [http://octopress.org/docs/blogging/](http://octopress.org/docs/blogging/)
