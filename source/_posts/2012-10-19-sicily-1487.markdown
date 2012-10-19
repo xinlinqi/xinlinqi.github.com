@@ -1,0 +1,131 @@
+---
+layout: post
+title: "Sicily 1487.字符串的展开"
+date: 2012-10-19 12:00
+comments: true
+categories: Sicily
+---
+
+首先要说的是这道题是几天前做的，当时在实验室，然后机器没有配好ruby环境，所以没有在最兴奋的时候即时发表，算是个小小的遗憾。
+
+然后这是我的大名第一次出现在首页！Congratulations！（后来才发现名字出在首页也就这样，很多题很水，只是没人做而已= =）
+
+{% img images/sicily/1487.png%}
+
+* 题目地址：[http://soj.me/1487](http://soj.me/1487)
+
+* 解题思路：直接做，好好理解题意，仔细一点，应该无错！判断一个字符是不是数字的时候要判断两端！不要偷懒。。。
+
+* 代码：
+
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <string>
+#include <stdio.h>
+using namespace std;
+
+
+int p1, p2, p3;
+
+//只负责输出中间部分。
+void printCharsBetween(int start, int end){
+	if(start >= end){
+		cout << "-";
+		return;
+	}
+	if(end - start == 1){
+		cout << "";
+		return;
+	}
+	if(p3 == 2){
+		for(int i=end-1; i > start; i--){
+			if(p1 == 3){
+				for(int j=0; j < p2; j++){
+					cout << "*";
+				}
+			}else{
+				//字符子串
+				if(start > (int)'9'){
+					int delta = (p1 == 1)?0:('A' - 'a');
+					for(int j=0; j < p2; j++){
+						cout << (char)(i+delta);
+					}
+				}else{
+					for(int j=0; j < p2; j++){
+						cout << (char) i;
+					}
+				}
+
+			}
+		}		
+	}else{
+		for(int i=start+1; i < end; i++){
+			if(p1 == 3){
+				for(int j=0; j < p2; j++){
+					cout << "*";
+				}
+			}else{
+				//字符子串
+				if(start > (int)'9'){
+					int delta = (p1 == 1)?0:('A' - 'a');
+					for(int j=0; j < p2; j++){
+						cout << (char)(i+delta);
+					}
+				}else{
+					for(int j=0; j < p2; j++){
+						cout << (char) i;
+					}
+				}
+
+			}
+		}
+	}
+
+}
+
+void unfoldIt(string str){
+	if(str.length() <= 2){
+		cout << str;
+		return ;
+	}
+	char prev = str[0], curr=str[1], next = str[2];
+	for(int i=1; i < str.length()-1; i++){
+		prev = str[i-1];
+		curr = str[i];
+		next = str[i+1];
+		if(i == 1){
+			cout << prev;
+		}
+
+		if(curr != '-'){
+			cout << curr;
+		}else{
+
+			if((prev <= '9' && next <= '9' && prev >= '0' && next >= '0') || prev >= 'a' && next >= 'a')
+				printCharsBetween(prev, next);
+			else{
+				cout << curr;
+			}
+		}
+		if(i == str.length() - 2){
+			cout << next;
+		}
+	}
+	
+}
+
+int main(void){
+	string str;
+	bool flag = true;
+	while(cin >> p1){
+		if(!flag){
+			cout << endl;
+		}
+		cin >> p2 >> p3 >> str;
+		unfoldIt(str);
+		cout << endl;
+		flag = false;
+	}
+	return 0;
+}
+{% endcodeblock %}
