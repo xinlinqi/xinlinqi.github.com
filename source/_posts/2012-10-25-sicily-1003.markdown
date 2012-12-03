@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Sicily 1003.Hit or Miss"
+date: 2012-10-25 20:41
+comments: true
+categories: Sicily
+---
+* 题目地址：[http://soj.me/1003](http://soj.me/1003)
+* 解题过程：何等卧槽的模拟题！！郭老师讲课的时候说模拟题是最简单的，只要按照题目意思来，不需要什么技巧，就可以过。但是做到按照题目意思，很难啊魂淡！像这道题，我是千小心万小心，还是WA了5次，5次啊魂淡！WA2次的时候实在受不了，就切换马甲提交。。最后最最困扰的是那个最后那个值的确定，也就是那个需要几个回合状态不变才判定是不可赢的状态。
+慢慢增加，几乎每增加一次就WA一次。。最后10000的时候过了！这尼玛，太蛋疼了！
+* 贴个代码
+<!--more-->
+{% codeblock lang:cpp%}
+#include <iostream>
+#include <queue>
+#include <stdio.h>
+using namespace std;
+
+int LONGEST_TURN = 10000;
+
+struct Player{
+	queue<int> cDeck;
+	int count;
+	int lastCard;
+	void addCard(int card){
+		cDeck.push(card);
+	}
+	void init(){
+		count = 0;
+		lastCard = 0;
+		clearDeck();
+	}
+	int runMyTurn(){
+		int ret = -1, temp;
+		if(!cDeck.empty()){
+			count++;
+			if(count >= 14)	count = 1;
+			temp = cDeck.front();
+			cDeck.pop();
+			if(cDeck.empty()){
+				lastCard = temp;
+			}
+			if(count == temp){
+				ret = temp;
+			}else{
+				cDeck.push(temp);
+			}
+		}
+		return ret;
+	}
+
+	void clearDeck(){
+		while(!cDeck.empty()){
+			cDeck.pop();
+		}
+	}
+
+	bool isDeckEmpty(){
+		return cDeck.empty();
+	}
+
+}p[10];
+
+int main(void){
+	int t, n, card;
+	cin >> t;
+	for(int ti=1; ti <= t; ti++){
+		cin >> n;
+		for(int i=0; i < 52; i++){
+			cin >> card;
+			p[0].addCard(card);
+		}
+		bool end_f = false;
+		int turnCount = 0, notEmptyCount;
+		while(!end_f){
+			turnCount++;
+			for(int i=0; i < n; i++){
+				int ret = p[i].runMyTurn();
+				if(ret > 0 && i < n - 1){
+					p[i+1].addCard(ret);
+					turnCount = 0;
+				}
+			}
+			notEmptyCount = 0;
+			for(int i=0; i < n; i++){
+				if(!p[i].isDeckEmpty()){
+					notEmptyCount++;
+				}
+			}
+			if(turnCount > LONGEST_TURN){
+
+				break;
+			}
+			if(notEmptyCount == 0){
+				break;
+			}
+		}
+		printf("Case %d: ", ti);
+		if(turnCount <= LONGEST_TURN){
+			for(int i=0; i < n - 1; i++){
+				cout << p[i].lastCard << " ";
+			}
+			cout << p[n-1].lastCard << endl;
+		}else{
+			turnCount = 0;
+			cout << "unwinnable" << endl;
+		}
+		for(int i=0; i < n; i++){
+			p[i].init();
+		}
+	}
+
+}
+{% endcodeblock %} 

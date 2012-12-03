@@ -1,0 +1,144 @@
+---
+layout: post
+title: "Sicily 1022.Poor contestant Prob"
+date: 2012-10-22 13:09
+comments: true
+categories: Sicily
+---
+* 题目地址：[http://soj.me/1022](http://soj.me/1022)
+* 解题思路：拿到这道题，最直观的思路就是读入数据，先排序，然后取当中那个。这个算法没错，但是效率不高。所以超时了。
+然后找到一份信科的[习题讲解](http://sist.sysu.edu.cn/~isslxm/PDSA/CS10/sm/week1.pdf)，知道了应该用堆来做，只需要维护一个最大堆（顶上元素为这个堆中最大的），最小堆，即可获解。
+最后值得一提的是要注意用scanf printf进行输入输出，而不是cin cout，否则会超时。
+* 最后贴个代码：
+<!--more-->
+{% codeblock lang:cpp%}
+// Problem#: 1022
+// Submission#: 1559734
+// The source code is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+// URI: http://creativecommons.org/licenses/by-nc-sa/3.0/
+// All Copyright reserved by Informatic Lab of Sun Yat-sen University
+#include <iostream>
+#include <cstring>
+#include <stdlib.h>
+#include <stdio.h>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+struct constent{
+    char name[12];
+    int solved;
+    const constent operator = (const constent &c){
+        strcpy(name, c.name);
+        solved = c.solved;
+        return *this;
+    }
+}lft[50010], rgt[50010];
+
+int lSize, rSize;
+
+int smallerHeap(const constent a, const constent b){
+    return a.solved > b.solved; 
+}
+int greaterHeap(const constent a, const constent b){
+    return a.solved < b.solved; 
+}
+
+void doAPop(int tag){
+    if(tag == 0){
+        pop_heap(lft, lft+lSize, greaterHeap);
+        lSize--;
+    }else{
+        pop_heap(rgt, rgt+rSize, smallerHeap);
+        rSize--;
+    }
+}
+
+void doAInsertion(char name[], int solved, int tag){
+    if(tag == 0){   //插入左边的堆，也就是最大堆（顶上的数是堆中最大的）。
+        lft[lSize].solved = solved;
+        strcpy(lft[lSize].name, name);
+        lSize++;
+        push_heap(lft, lft+lSize, greaterHeap);
+    }else{
+        rgt[rSize].solved = solved;
+        strcpy(rgt[rSize].name, name);
+        rSize++;
+        push_heap(rgt, rgt+rSize, smallerHeap);
+    }
+}
+
+void insert(char name[], int solved){
+    if(lSize == 0){
+        doAInsertion(name, solved, 0);
+        return;
+    }
+    if(rSize == 0){
+        if(solved > lft[0].solved){
+            doAInsertion(name, solved, 1);
+        }else{
+            doAInsertion(lft[0].name, lft[0].solved, 1);
+            doAPop(0);
+            doAInsertion(name, solved, 0);
+        }
+        return;
+    }
+    if(lSize == rSize){
+        if(solved < rgt[0].solved){
+            doAInsertion(name, solved, 0);
+        }else{
+            doAInsertion(rgt[0].name, rgt[0].solved, 0);
+            doAPop(1);
+            doAInsertion(name, solved, 1);
+        }
+    }else{
+        if(solved < lft[0].solved){
+            doAInsertion(lft[0].name, lft[0].solved, 1);
+            doAPop(0);
+            doAInsertion(name, solved, 0);
+        }else{
+            doAInsertion(name, solved, 1);
+        }
+    }
+}
+
+int main(void){
+    int m, solved;
+    char name[12], cmd[12];
+    cin >> m;
+    bool flag = false;
+    while(m--){
+        lSize = 0;
+        rSize = 0;
+        if(flag){
+            printf("\n");
+        }
+        while(scanf("%s", &cmd)){
+            if(cmd[0] == 'A'){
+                scanf("%s%d", &name, &solved);
+                insert(name, solved);
+            }else{
+                if(cmd[0] == 'Q'){
+                    if((lSize+rSize) % 2 == 0){
+                        printf("No one!\n");
+                    }else{
+                        printf("%s\n", lft[0].name);
+                    }
+                    
+                }
+                if(cmd[0] == 'E'){
+                    if((lSize + rSize) % 2 == 0){
+                        printf("Happy BG meeting!!\n");
+                    }else{
+                        printf("%s is so poor.\n", lft[0].name);
+                    }
+
+                    break;
+                }
+            }
+        }
+        flag = true;
+    }
+    return 0;
+}
+{% endcodeblock %}
