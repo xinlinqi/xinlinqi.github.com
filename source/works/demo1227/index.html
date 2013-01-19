@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Introduction to Three.js</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<script src='slides.js'></script>
+		<!--
+		<link href="http://fonts.googleapis.com/css?family=Raleway:100" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|Droid+Sans+Mono&v2">
+		-->
+	</head>
+	<body style="display: none">
+		<section class='slides layout-regular'>
+			<article class="title">
+				<script>
+				  (function() {
+					var c = document.createElement('canvas');
+					var ctx = null;
+					try {
+					  ctx = c.getContext('webgl');
+					} catch(e) { }
+					try {
+					  ctx = ctx || c.getContext('experimental-webgl');
+					} catch(e) { }
+					if (!ctx) alert("No WebGL detected, use Chrome or firefox please!");
+				  })();
+				</script>
+				<h2>Loading Models</h2>
+			</article>
+			
+			<article>
+				<h3>SketchUp中有什么？</h3>
+				<ul>
+					<li>首先是很强大的3D模型库，方便下载使用。</li>
+					<li>入门级的3D模型编辑。</li>
+				</ul>
+				<img src="./images/sketchup_3DLibrary.png" />
+			</article>
+
+			<article>
+				<h3>从SketchUp中导出模型</h3>
+				<ul>
+					<li>从3D模型库下载要导出的模型。</li>
+					<img src="images/chair.png" height="400px" width="400px"/>
+					<li>进行一些细微的编辑之后，选择文件 | 导出 | 三维模型</li>
+					
+				</ul>
+			</article>
+			
+			<article>
+				<h3>Three.js中提供的Model Loaders</h3>
+				<p>
+					Look into src/extras/loaders/
+				</p>
+				<ul>
+					<li>
+						BinaryLoader.js
+					</li>
+					<li>
+						<strong>ColladaLoader.js</strong>
+					</li>
+					<li>
+						JSONLoader.js
+					</li>
+					<li>
+						SceneLoader.js
+					</li>
+					<li>
+						UTF8Loader.js
+					</li>
+				</ul>
+				<p title="是一种基于XML的使得3D素材交换更加方便的机制，使各种3D模型作者和3D内容能够很好的进行组合">
+					我们现在主要学习的是ColladaLoader.js的使用。
+				</p>
+			</article>
+
+			<article>
+				<h3>COLLADA loader</h3>
+				<pre>
+new THREE.ColladaLoader().load('models/chair.dae',//选择要载入的模型
+function(collada) {
+  var model = collada.scene;	//得到载入的模型
+  model.scale.set(0.1, 0.1, 0.1);	//设置模型大小
+  model.rotation.x = -Math.PI/2;	//设置模型rotation
+  scene.add(model);		//将模型加到场景中
+});</pre>
+				<p>
+					看起来并不是很复杂。
+				</p>
+			</article>
+
+			<article>
+				<h3>导入的Chair模型</h3>
+				<iframe src="three/three_14.html" > </iframe>
+			</article>
+
+			<article>
+				<h3>遇到的问题</h3>
+				<ul>
+					<li>从SketchUp中下载的模型，并不是全部都适合导入。</li>
+					<img src="images/error_1.png" />
+					<li>载入后，发现根本没有模型。（位置不对或者太小看不到！)</li>
+				</ul>
+				<h3>应对的解决方案</h3>
+				<ul>
+					<li>最直接最省力的办法，放弃这个模型。</li>
+					<li>对下载的模型要进行细微的编辑，也就是一定要将模型放到原点。</li>
+				</ul>				
+			</article>
+
+			<article>
+				<h3>小小的Demo</h3>
+				<iframe src="three/three.js/demo/demo.html" > </iframe>
+			</article>
+		
+			<article>
+				<h3>下一步要做的事</h3>
+				<ul>
+					<li>与载入的模型进行简单的交互，如移动、改变纹理等。</li>
+					<li>收集3D模型库上可以用的模型，充实模型库</li>
+					<iframe src="three/three.js/demo/webgl_interactive_draggablecubes.html"> </iframe>
+				</ul>
+			</article>
+			
+			
+			<article>
+				<h3>最后，感谢</h3>
+				<p>
+					Ilmari Heikkinen提供的SlideJS
+				</p>
+				<p>
+					<a href="http://twitter.com/ilmarihei">@ilmarihei</a>
+					| <a href="http://fhtr.org/plus">fhtr.org/plus</a>
+					| <a href="http://fhtr.org">fhtr.org</a>
+				</p>
+				<br>
+				<br>
+				<p>
+					Repo at <a href="https://github.com/kig/BasicsOfThreeJS">github.com/kig/BasicsOfThreeJS</a>
+				</p>
+			</article>
+
+		</section>
+
+		<!--[if IE]>
+		<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+		<script>CFInstall.check({mode: 'overlay'});</script>
+		<![endif]-->
+
+	</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - interactive - voxel painter</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #111;
+				margin: 0px;
+				overflow: hidden;
+			}
+			.menu { color: #fff; font-weight: bold; font-size: 12px; z-index: 100; width: 100px; position: absolute; top: 0px; padding: 16px; border: 1px #ccc }
+			.menu img, .menu canvas { width: 75px; margin: 10px 0 }
+
+			#images { background: rgba(0,0,0,0); left: 0px; border: 1px #FFFFFF dashed }
+			#backgrounds { background: rgba(0,0,0,0.0); left: 107px; }
+			#labels { background: rgba(0,0,0,0.75); left: 214px; width: 100px }
+
+			#oldie { background-color: #ddd !important }
+			.info {color: #CCCCCC; border-bottom: 1px #FFFFFF dashed}
+			.dashed{border: 1px #DDDDDD dashed}
+		</style>
+	</head>
+	<body>
+		<div id="images" class="menu">
+			Texture List
+			<a id="img_0" href="#"><img src="textures/default.png" /></a>
+			<a id="img_1" href="#"><img src="textures/water.png" /></a>
+			<a id="img_2" href="#"><img src="textures/detail_1.jpg" /></a>
+			<a id="img_3" href="#"><img src="textures/grass.jpg" /></a>
+			<a id="furniture_1" href="#"><img src="textures/chair.png" /></a>
+		</div>
+		<div class="info" style="text-align: center">
+		<a href="http://threejs.org" target="_blank">three.js</a> - voxel painter - webgl<br>
+		<strong>click</strong>: add voxel, <strong>control + click</strong>: remove voxel, <strong>shift + click</strong>: rotate, 
+		<a href="javascript:save();return false;">save .png</a>
+		</div>
+		<script src="../build/three.min.js"></script>
+		<script src="../build/Three.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+
+		<script src='js/libs/dat.gui.min.js'></script>
+
+		<script src="js/demo.js"></script>
+
+	</body>
+</html>
