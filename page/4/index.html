@@ -1,0 +1,361 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 4 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-17T13:57:00.000Z"><a href="/2012/11/17/first-step-to-hibernate/">Nov 17 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/11/17/first-step-to-hibernate/">Hibernate的初步尝试</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>前言</h2>
+<p>Java大作业是这个学期我花的时间最长的一次作业了。作业要求是先用文本文件实现持久化，然后再用数据库实现。后来老师又说可以直接用数据库实现，但是那时我已经差不多把文本文件实现的那部分功能做出来了，只能坚持继续做下去。下周就要交数据库实现版本，口头上说说工作量应该不大，因为只需要将存取数据的接口重新实现就好了。但是这之间我遇到了很多麻烦。</p>
+<ul>
+<li><p>首先我看了下MySQL文档中关于Java连接的文档，好像很方便，不考虑性能什么的话，只需要包含一个Jar包，就可以进行数据库操作。于是我去网上找了一个Demo，嗯，运行状况良好。但是一细想，这个和我之前设计的用JAXB的方式出入太大，恐怕不好整合。于是去网上找了之前听说过的Hibernate.</p>
+</li>
+<li><p>接下来就说我用了一整天的时间来琢磨这个Hibernate的故事。</p>
+</li>
+</ul>
+<h2>总体感觉</h2>
+<p>实验室的网络让我疯狂！GoAgent一直用不顺，大概是因为实验室把IPV6封了的缘故，有毛病！</p>
+<p><code>不知所措</code> -&gt; <code>无奈挣扎</code>-&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>喜悦</code></p>
+<p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/11/17/first-step-to-hibernate/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-07T12:26:00.000Z"><a href="/2012/11/07/svn-server-on-ubuntu/">Nov 7 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/11/07/svn-server-on-ubuntu/">在Ubuntu上安装SVN服务器</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>缘起</h2>
+<p>上学期由于在基地那边值班，利用职务之便，在基地的某台电脑上搭建了一个SVN服务器。在Windows下，SVN服务器搭建很方便，只需要下载VisualSVN，图形化界面，操作很简单。就这样在上面搭了很多东西，但是这学期由于基地的活越来越少，我也由于学业压力，没有在那边上班，那台机器被关掉了。我也不好意思去向那边的人说，唉，那台机器是我要用的耶，开一下吧。。。</p>
+<h2>正文</h2>
+<p>幸亏在基地工作的两个月我赚到了一台服务器，完全独立管理权限哈哈~不过系统是Ubuntu的。
+今晚花了两个多小时配好了SVN服务器，激动之余，Post一篇博文上来，记一下。</p>
+<ul>
+<li>安装subversion，apache2</li>
+</ul>
+<p>由于这台服务器上原来就有apache2，所以省了。
+        sudo apt-get install apache2 subversion libapache2-svn
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/11/07/svn-server-on-ubuntu/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-03T09:04:00.000Z"><a href="/2012/11/03/oom-course-design-problems/">Nov 3 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/11/03/oom-course-design-problems/">Java 大作业中遇到的种种问题。</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>这篇博文算是一个问题集，希望能把所有在Java大作业中遇到的问题，以及解决方法都记下来。
+就这么开始吧。</p>
+<ul>
+<li><h2>1、首先是中文编码问题，把我虐得死去活来，不堪回首。</h2>
+Java其实已经提供了很好的中文支持，但是现在还是出现乱码，这只能说是我的RP问题了。。。
+首先放一段代码：</li>
+</ul>
+<figure class="highlight lang-java"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">package</span> edu.sysu.ss.bms;
+<span class="keyword">import</span> java.io.*;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> {</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String args[]) <span class="keyword">throws</span> Exception {
+        BufferedReader mReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));
+        String something = mReader.readLine();
+        System.out.println(<span class="string">"It 's "</span> + something);
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>这段代码很简单，就是从标准输入中读入一行字符串，然后输出，这个是支持中文的。但是到我手上运行的时候，当输入为中文时，输出是乱码。
+这是为什么呢？肯定是编码问题，将代码文件的编码改为GBK之后，就可以了。
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/11/03/oom-course-design-problems/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-31T02:44:00.000Z"><a href="/2012/10/31/sicily-1034/">Oct 31 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/10/31/sicily-1034/">Sicily 1034. Forest</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>题目地址：</h2>
+<p>Sicily. Forest <a href="http://soj.me/1034"><a href="http://soj.me/1034">http://soj.me/1034</a></a></p>
+<h2>解题思路：</h2>
+<p>一个非常蛋疼的题目，WA出翔了！以下是我的辉煌战绩，都快占据一页了O.O。。。</p>
+<img src="/images/sicily/1034.png">
+
+<p>其实主要是解法出错，画蛇添足。这道题只需进行广搜或深搜中的一种，即可求解森林的深度和宽度。
+而之前那么多次WA的原因是我用深搜求深度，用广搜求宽度。最开始的时候还天真的以为森林里面只有一棵树。现在看来，是各种幼稚就是了。。。
+贴个代码吧，对哦，那么多RE的原因就是改代码改的。。。
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/10/31/sicily-1034/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-25T12:41:00.000Z"><a href="/2012/10/25/sicily-1003/">Oct 25 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/10/25/sicily-1003/">Sicily 1003.Hit or Miss</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>题目地址：<a href="http://soj.me/1003"><a href="http://soj.me/1003">http://soj.me/1003</a></a></li>
+<li>解题过程：何等卧槽的模拟题！！郭老师讲课的时候说模拟题是最简单的，只要按照题目意思来，不需要什么技巧，就可以过。但是做到按照题目意思，很难啊魂淡！像这道题，我是千小心万小心，还是WA了5次，5次啊魂淡！WA2次的时候实在受不了，就切换马甲提交。。最后最最困扰的是那个最后那个值的确定，也就是那个需要几个回合状态不变才判定是不可赢的状态。
+慢慢增加，几乎每增加一次就WA一次。。最后10000的时候过了！这尼玛，太蛋疼了！</li>
+<li>贴个代码
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/10/25/sicily-1003/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+<nav id="pagination">
+  
+    <a href="/page/3/" class="prev"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/page/5/" class="next"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,215 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Django | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+<h2 class="archive-title tag">Django</h2>
+
+
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-11-24T09:03:03.000Z"><a href="/2011/11/24/problems-solving-django/">Nov 24 2011</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2011/11/24/problems-solving-django/">问题，解决！之Django</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>记录下Django开发中遇到的一系列问题。</p>
+</blockquote>
+<h2>1. Cannot add or update a child row: a foreign key constraint fails</h2>
+<p><img src="http://i.imgur.com/ROeuinG.png" alt="错误截图"></p>
+<ul>
+<li><p>表的引擎类型不一样，改为统一的类型就好了。<code>Alter table &lt;tablename&gt; engine=&lt;engine_type&gt;</code></p>
+</li>
+<li><p>参考：<a href="http://stackoverflow.com/questions/6178816/django-cannot-add-or-update-a-child-row-a-foreign-key-constraint-fails">StackOverflow</a>，非常感谢！</p>
+</li>
+<li><p>当<code>syncdb</code>时遇到<code>Can&#39;t create table</code>blabla的错误也可以用这种方法解决。</p>
+</li>
+</ul>
+<h2>2. AttributeError: &#39;unicode&#39; object has no attribute &#39;_meta&#39;</h2>
+<blockquote>
+<p>ForeignKey, ManyToManyField and OneToOneField require the first argument to be a model class, so use the verbose_name keyword argument.</p>
+</blockquote>
+<p>所以，显示地加上verbose_name就好了，如：</p>
+<pre><code><figure class="highlight"><pre>    poll = models<span class="variable">.ForeignKey</span>(Poll, verbose_name=<span class="string">"the related poll"</span>)
+    sites = models<span class="variable">.ManyToManyField</span>(Site, verbose_name=<span class="string">"list of sites"</span>)
+    place = models<span class="variable">.OneToOneField</span>(Place, verbose_name=<span class="string">"related place"</span>)
+</pre></figure></code></pre>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-08-25T07:24:17.000Z"><a href="/2011/08/25/deploy-django-to-apache-under-windows/">Aug 25 2011</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2011/08/25/deploy-django-to-apache-under-windows/">Windows底下基于Apache部署Django应用</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>更新于2013.4.10</p>
+<p>最近要做CTM项目了，这是我的毕业设计耶！昨天Sikou师兄给了我们关于如何在Ubuntu下部署Django应用的一些材料，我尝试了一下，虽然比较麻烦，但是按着步骤一步步下来，算是部署好了。</p>
+<p>但是我用来开发Django应用的机器是Windows系统的，顺便就去网上找了一些资料，学了下关于Django应用在Windows底下的部署方法。以下以一台刚装好32位windows系统的机子为例：</p>
+<h1>安装前的准备</h1>
+<ul>
+<li><p>Python，下载地址：<a href="http://www.python.org/download/"><a href="http://www.python.org/download/">http://www.python.org/download/</a></a>，我选择的是2.7.3版本的。</p>
+</li>
+<li><p>Django，下载地址：<a href="https://www.djangoproject.com/download/"><a href="https://www.djangoproject.com/download/">https://www.djangoproject.com/download/</a></a>，我下载的是1.3.1版本的。</p>
+</li>
+<li><p>wamp， 集合了Apache, Mysql, PHP，是Web开发入门神器，<a href="http://sourceforge.net/projects/wampserver/files/WampServer%202/WampServer%202.2/wampserver2.2e/wampserver2.2e-php5.3.13-httpd2.2.22-mysql5.5.24-32b.exe/download">下载地址</a>。</p>
+</li>
+<li><p>一些Python Modules，如<code>MySQLdb</code>、<code>xlrd</code>、<code>PIL(Pillow)</code>、<code>setuptools</code>等等，都可以前往<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs">加州大学的某个大神处</a>下载，该有的都有了。</p>
+</li>
+<li><p>Apache <code>mod_wsgi</code>，也可以在上述<code>加州大学的某个大神处</code>找到，此处32位和64位有差异，记得选择正确。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2011/08/25/deploy-django-to-apache-under-windows/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

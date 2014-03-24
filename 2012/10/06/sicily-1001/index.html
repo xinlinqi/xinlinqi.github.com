@@ -1,0 +1,266 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 1001. Alphacode  | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="哎呀呀，还是回归正题吧，建立这个博客的目的咧，就是因为本人有洁癖（你也太直接了点吧，biu~）
+这学期有门算法课，于是国庆这几天一直和西西里娘做伴。真是美死了！AC数也翻番了耶~！（如果你之前只AC了一道的话，翻番了也只有2道啊—————你知道的太多了，拖出去砍了！）">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 1001. Alphacode "/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-06T08:23:00.000Z"><a href="/2012/10/06/sicily-1001/">Oct 6 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 1001. Alphacode </h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>哎呀呀，还是回归正题吧，建立这个博客的目的咧，就是因为本人有洁癖（你也太直接了点吧，biu~）</p>
+<p>这学期有门算法课，于是国庆这几天一直和西西里娘做伴。真是美死了！AC数也翻番了耶~！（如果你之前只AC了一道的话，翻番了也只有2道啊—————你知道的太多了，拖出去砍了！）</p>
+<a name="more"></a>
+
+<p>关于Sicily1001，正题Start！抄自我之前的一个临时的所谓技术<a href="http://blog.csdn.net/xinlinqi8/article/details/8038020">博客</a>。。。</p>
+<ul>
+<li><p>题目地址：<a href="http://soj.me/1001"><a href="http://soj.me/1001">http://soj.me/1001</a></a></p>
+</li>
+<li><p>思路解析：是动态规划的一个很好的练手练习题。主要思路就是考虑前i个字符串和前i-1个字符串的解码数量之间的关系。</p>
+</li>
+<li><p>如果Si-1Si在[1, 26]之间，则dpArr[i] = dpArr[i-1] + dpArr[i-2]，其中dp[i]代表前i个字符组成数字的最大解码数量。</p>
+</li>
+<li><p>否则，dpArr[i] = dpArr[i-1];</p>
+</li>
+<li><p>最麻烦的是考虑0的情况！为此我付出n多次的WA。。。</p>
+</li>
+<li><p>分享几个测试用例，奇数行为输入，偶数行为输出：</p>
+<pre><code><figure class="highlight"><pre>  <span class="number">1020310</span>
+  <span class="number">1</span>
+  <span class="number">1020</span>
+  <span class="number">1</span>
+  <span class="number">1</span>
+  <span class="number">1</span>
+</pre></figure></code></pre>
+</li>
+</ul>
+<!-- more -->        
+
+<p>代码如下所示</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> dpArr[<span class="number">10000</span>];
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="built_in">string</span> str;
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; str &amp;&amp; str[<span class="number">0</span>] != <span class="string">'0'</span>){
+        memset(dpArr, <span class="number">0</span>, <span class="keyword">sizeof</span>(dpArr));
+        dpArr[<span class="number">0</span>] = <span class="number">1</span>;
+        dpArr[<span class="number">1</span>] = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i &lt;= str.length(); i++){
+            <span class="keyword">if</span>((str[i-<span class="number">1</span>-<span class="number">1</span>] - <span class="string">'0'</span>) * <span class="number">10</span> + str[i-<span class="number">1</span>] - <span class="string">'0'</span> &lt;= <span class="number">26</span>){
+                <span class="keyword">if</span>(str[i-<span class="number">1</span>] == <span class="string">'0'</span>){
+                    dpArr[i] = dpArr[i-<span class="number">2</span>]; 
+                }<span class="keyword">else</span>{
+                    <span class="keyword">if</span>(str[i-<span class="number">1</span>-<span class="number">1</span>] == <span class="string">'0'</span>){
+                        dpArr[i] = dpArr[i-<span class="number">1</span>];
+                    }<span class="keyword">else</span>{
+                        dpArr[i] = dpArr[i-<span class="number">1</span>] + dpArr[i-<span class="number">2</span>];
+                    }
+                }
+            }<span class="keyword">else</span>{
+                <span class="keyword">if</span>(str[i-<span class="number">1</span>] == <span class="string">'0'</span>){
+                    dpArr[str.length()] = <span class="number">0</span>;
+                    <span class="keyword">break</span>;
+                }<span class="keyword">else</span>{
+                    dpArr[i] = dpArr[i-<span class="number">1</span>];
+                }
+            }
+        }
+        <span class="built_in">cout</span> &lt;&lt; dpArr[str.length()] &lt;&lt; endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>哦也，第一篇有代码的markdown博客达成，虽然没有高亮，但是效果也还是很不错的嘛~~</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/06/sicily-2501/" class="prev" title="Sicily 2501. 算算式"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/06/welcome-to-octopress/" class="next" title="octopress 基本上搭建完成了!!!"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

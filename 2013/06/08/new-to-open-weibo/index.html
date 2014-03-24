@@ -1,0 +1,195 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微博开放平台之一入门 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="微博的开放平台很早就听说了，然后也有一些接触，但只是接触而已，每次想用的时候却都不知道该做些啥。。。前天，在一位女生的威逼利诱下，我才真正开始使用微博开放平台提供的相关API。
+Python SDK
+微博提供了现有大部分主流编程语言的SDK，当然有些是第三方的，譬如Python的SDK就是一个叫@廖雪峰的人弄出来的。
+根据SDK主页上提供的文档，我在SAE上面部署了它的Demo。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="微博开放平台之一入门"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-06-08T03:22:06.000Z"><a href="/2013/06/08/new-to-open-weibo/">Jun 8 2013</a></time>
+      
+      
+  
+    <h1 class="title">微博开放平台之一入门</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>微博的开放平台很早就听说了，然后也有一些接触，但只是接触而已，每次想用的时候却都不知道该做些啥。。。前天，在一位女生的威逼利诱下，我才真正开始使用微博开放平台提供的相关API。</p>
+<h2>Python SDK</h2>
+<p>微博提供了现有大部分主流编程语言的SDK，当然有些是第三方的，譬如<a href="http://michaelliao.github.io/sinaweibopy/">Python的SDK</a>就是一个叫<a href="http://weibo.com/206069909">@廖雪峰</a>的人弄出来的。</p>
+<p>根据SDK主页上提供的文档，我在SAE上面部署了它的<a href="http://xinlinqi.sinaapp.com/">Demo</a>。</p>
+<a name="more"></a>
+
+<p><img src="http://ww2.sinaimg.cn/large/5a7a189bgw1e5gkpvewomj21550h4q6j.jpg" alt="部署截图"></p>
+<p>我从2011年就开始接触SAE了，曾经在SAE上部署过一个Wordpress博客，但是由于那时需要支付租金，5、6个应用每天的消耗下来，送的2w云豆和实名认证的2000云豆一下子就没了。。然后全部应用的数据全被清空，倒是没什么损失：博客基本没什么文章，其他应用也都是测试性的。</p>
+<p>前几天花了10块前充了10软妹币，现在没有租金，我只搭一个应用，应该可以撑一段时间的吧。</p>
+<p><img src="http://ww1.sinaimg.cn/large/5a7a189bgw1e5gkxb72naj20ox047dgd.jpg" alt="充值记录"></p>
+<p>由于刚学不久，简单的Demo部署都遇到一些问题。。。譬如需要在应用信息里面设置CallBack页面，说白了很简单：你总得提供一个oAuth认证完毕后跳转的页面吧。</p>
+<p><img src="http://ww3.sinaimg.cn/large/5a7a189bgw1e5gl0acojhj20jb053glq.jpg" alt="CallBack设置"></p>
+<p>PythonSDK只是简单的尝试，我觉得更方便的是JavaScript的SDK。</p>
+<h2>JavaScript SDK</h2>
+<p>JavaScript SDK用起来很爽，首先只要跟着<a href="http://jssdk.sinaapp.com/start.php">JS SDK 文档</a>一步步下来就行了。</p>
+<p>注意以下几点：</p>
+<ul>
+<li><p>微博的API调用需要用户认证，所以在每次调用前都得通过<code>WB2.CheckLogin()</code>检查是否登录。</p>
+</li>
+<li><p>调用次数有<a href="http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI#.E6.8E.A5.E5.8F.A3.E8.AE.BF.E9.97.AE.E9.A2.91.E6.AC.A1.E6.9D.83.E9.99.90">限制</a>！所以获取一条微博的转发列表时要注意！特别是有上万次转发的，每次只能200条，10000次就是50次调用，每小时的配额一下子就用完了=。=我现在的状态就是用完了配额，403 Forbidden，然后来写博客。。。</p>
+</li>
+</ul>
+<p>花了一天两夜的时间，总算把那个小页面做出来了，见<a href="http://xinlinqi.oicp.net/wei/"><a href="http://xinlinqi.oicp.net/wei/">http://xinlinqi.oicp.net/wei/</a></a>，还是截个图吧，原因有两个：</p>
+<ul>
+<li><p>由于是花生壳的动态域名，指不定什么时间就访问不了了。。</p>
+</li>
+<li><p>接入的网站没有通过审核，只能指定几个可以登录的微博帐号。。。</p>
+</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/5a7a189bgw1e5glefzhhdj216h0nrgog.jpg" alt="小页面，马甲账号，主帐号暂时上不了"></p>
+<h2>后记</h2>
+<p>做自己感兴趣的事情真好，废寝忘食什么的。哈哈~</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/微博开放平台/">微博开放平台</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2013/06/27/new-theme-for-my-blog/" class="prev" title="换个主题，换个心情"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2013/06/04/weixin_development_auth/" class="next" title="微信公众平台自定义用户组的简单实现"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Nicole, Happy Birthday!!!</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<style type="text/css">
+		@font-face {
+			font-family: digit;
+			src: url('digital-7_mono.ttf') format("truetype");
+		}
+	</style>
+	<link href="css/default.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript" src="js/garden.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+</head>
+
+<body>
+	<div id="mainDiv">
+		<div id="content">
+			<div id="code">
+				<span class="comments">首先，感谢<a href="http://hackerzhou.me">hackerzhou</a>的工作。</span><br /><br />
+				
+				<span class="comments">其次，我弄这个是因为你之前的一句话，“技术部都挺水的”。这让我很不服气╮(╯▽╰)╭</span><br /><br />
+				<span class="comments">也许就是想让你明白，有的时候，一个人的一句话，一个举止，有个白痴会很在意。</span><br /><br />
+				
+				<span class="comments">然后，再次对你表示深深的歉意（好假^_^），还是那次弄伤你的事。</span><br /><br />
+				<span class="comments">我这个人咧，和女生在一起就会很紧张，特别是像你这样的美女。</span><br /><br />
+				
+				<span class="comments">也许我会永远记得2012年6月29日这一天，谢谢你（们）！</span><br /><br />
+				
+				<span class="comments">你要知道，我拿到照片后，在宿舍里炫耀的时候，那群饿狼们发绿的眼睛让我很有满足感。</span><br /><br />
+				
+				<span class="comments">10月8日，我想我也会记住这个日子了。因为我的生的那一年，那一天，农历刚好是十月初八。</span><br /><br />
+				
+				<span class="comments">在聊天的时候，你常常把凌万阳（又打错了，就错着吧^_^）和我绑在一起，其实她和你一样，跟我唯一的交集也许就是上学期在基地的那段时光了。</span><br /><br />	
+				
+				<span class="comments">在基地的那段时光，很开心，以至于现在我很怀念。那里我赚到了人生中到现在为止最多的钱，那里给了我忙碌的生活————加班加点、打车回大学城、外卖、通宵，那里也有你们，一群美丽可爱善良的人们。</span><br /><br />
+				
+				
+				<span class="comments">最后，引用你之前发的微博的一段话：你若安好，便是晴天。生日快乐！</span><br /><br />
+				
+				<div class="signature">-By xinlinqi.2012-10-7.</div>
+				
+			</div>
+			<div id="loveHeart">
+				<canvas id="garden"></canvas>
+				<div id="words">
+					<div id="messages">
+						yuanshen, maybe i have been in love with you since sometime.
+					</div>
+					<div id="loveu">
+						<div class="signature">- xinlinqi</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="elapseClock"></div>
+		<div id="copyright">
+			Much Thanks to <a href="http://hackerzhou.me">hackerzhou.me</a> <br />
+			Copyright © 2012 <a href='http://xinlinqi.github.com'>xinlinqi</a> 1990-2012
+		</div>
+	</div>
+	<script type="text/javascript">
+		var offsetX = $("#loveHeart").width() / 2;
+		var offsetY = $("#loveHeart").height() / 2 - 55;
+		
+		if (!document.createElement('canvas').getContext) {
+			var msg = document.createElement("div");
+			msg.id = "errorMsg";
+			msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
+			document.body.appendChild(msg);
+			$("#code").css("display", "none")
+			$("#copyright").css("position", "absolute");
+			$("#copyright").css("bottom", "10px");
+		    document.execCommand("stop");
+		} else {
+			startHeartAnimation();
+
+			adjustCodePosition();
+			$("#code").typewriter();
+		}
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-35370180-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</body>
+</html>

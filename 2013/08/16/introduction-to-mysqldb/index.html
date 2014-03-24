@@ -1,0 +1,249 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQLdb 简介及使用入门 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="以下内容是对原文的纯翻译再加一点点精简，英文原文见MySQLdb User&amp;#39;Guide。
+MySQLdb简介
+MySQLdb是一个提供了Python数据库接口的对主流MySQL数据库服务器线程兼容的一套接口。好像很复杂，其实说白了就是用了这个库，我们可以编写Python代码来访问MySQL数据库。
+MySQLdb简易入门
+
+连接数据库：connect(parameters), 该方法常用的变量有host, user, passwd, db, port等，示例代码如下：
+
+db = MySQLdb.connect(host=&quot;localhost&quot;, user=&quot;root&quot;, passwd=&quot;rootpasswd&quot;, db=&quot;database_name&quot;)
+
+
+执行查询，先要得到一个cursor，然后execute查询，最后fetchone来获得结果，示例代码如下：1
+2
+3
+4
+5
+c = db.cursor()
+max_price = 5
+c.execute(&quot;&quot;&quot;SELECT spam, eggs, sausage FROM breakfast
+          WHERE price &lt; %s&quot;&quot;&quot;, (max_price,))
+c.fetchone()">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MySQLdb 简介及使用入门"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-08-16T02:30:13.000Z"><a href="/2013/08/16/introduction-to-mysqldb/">Aug 16 2013</a></time>
+      
+      
+  
+    <h1 class="title">MySQLdb 简介及使用入门</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>以下内容是对原文的纯翻译再加一点点精简，英文原文见<a href="http://mysql-python.sourceforge.net/MySQLdb.html">MySQLdb User&#39;Guide</a>。</p>
+<h2>MySQLdb简介</h2>
+<p><code>MySQLdb</code>是一个提供了Python数据库接口的对主流MySQL数据库服务器<a href="http://j2eeinaction.blogspot.com/2007/02/five-categories-of-thread-safety.html">线程兼容</a>的一套接口。好像很复杂，其实说白了就是用了这个库，我们可以编写Python代码来访问MySQL数据库。</p>
+<h2>MySQLdb简易入门</h2>
+<ul>
+<li>连接数据库：connect(parameters), 该方法常用的变量有<code>host</code>, <code>user</code>, <code>passwd</code>, <code>db</code>, <code>port</code>等，示例代码如下：</li>
+</ul>
+<pre><code><figure class="highlight"><pre><span class="setting">db = <span class="value">MySQLdb.connect(host=<span class="string">"localhost"</span>, user=<span class="string">"root"</span>, passwd=<span class="string">"rootpasswd"</span>, db=<span class="string">"database_name"</span>)</span></span>
+</pre></figure></code></pre>
+<ul>
+<li>执行查询，先要得到一个<code>cursor</code>，然后<code>execute</code>查询，最后fetchone来获得结果，示例代码如下：<figure class="highlight lang-python"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>c = db.cursor()
+max_price = <span class="number">5</span>
+c.execute(<span class="string">"""SELECT spam, eggs, sausage FROM breakfast
+          WHERE price &lt; %s"""</span>, (max_price,))
+c.fetchone()
+</pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><a name="more"></a>
+在上面这个例子中，也许会有两个疑问：</p>
+<blockquote>
+<ul>
+<li><p>为什么在那一个字符串中使用了<code>%s</code>？因为MySQLdb会将max_price转变成SQL语法中的值，也就是字符串的&#39;5&#39;， 当这个过程结束的时候，这个查询实际上执行的是 &quot;WHERE price &lt; 5&quot;。</p>
+</li>
+<li><p>为什么使用元组(tuple)？因为MySQL的API中要求以一个序列传入参数。根据Python的词法分析器的相关设计，(max_price)会被解释成max_price，而不是一个元组。通过加一个逗号，也就是(max_price, )，强制使它成为一个元组。</p>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>插入新条目，可以使用<code>execute(INSERT_SQL_STATEMENT)</code>插入单行或者<code>executemany()</code>来插入多行。示例代码如下：<figure class="highlight lang-python"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>c.execute(<span class="string">"""
+INSERT INTO breakfast(name, spam, eggs, sausage, price) VALUES("Spam and Sausage Lover's Plate", 5, 1, 8, 7.95 )
+"""</span>)
+c.executemany(
+  <span class="string">"""INSERT INTO breakfast (name, spam, eggs, sausage, price)
+  VALUES (%s, %s, %s, %s, %s)"""</span>,
+  [
+  (<span class="string">"Spam and Sausage Lover's Plate"</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">7.95</span> ),
+  (<span class="string">"Not So Much Spam Plate"</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">3.95</span> ),
+  (<span class="string">"Don't Wany ANY SPAM! Plate"</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">5.95</span> )
+  ] )
+</pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>对数据库进行更改（Insert, Update, etc..）操作后，不要忘记执行commit来使更改生效</li>
+</ul>
+<pre><code><figure class="highlight"><pre>db.<span class="operator"><span class="keyword">commit</span>()
+</pre></figure></code></pre>
+<h2>后记</h2>
+<p><code>Python</code>是个很好的脚本语言工具，我经常写些微量级的脚本代码来做一些简单但重复的事情。
+我的毕业设计中需要设计一个BIM库，现在的想法很简单，就是建立一张表，里面存着家具组件的模型信息。我需要将SweetHome免费提供的3D模型导入到该BIM库中。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Learning/">Learning</a>, <a href="/tags/Python/">Python</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2013/08/23/xianxia/" class="prev" title="我的仙侠情结"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2013/07/31/post-bing-wallpaper-everyday-weibo/" class="next" title="漂亮的必应壁纸，留下来吧"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

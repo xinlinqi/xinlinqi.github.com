@@ -1,0 +1,207 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>给国际汉语学院做了一个小APP | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="最近一直忙于论文和生活上的琐事，好久没有更新博客了。
+11月11日（这是一个悲伤的日子）的时候接到SCSL（国际汉语学院）给的一个小需求，让我帮他们做一个在地图上展示学院学生风采的小APP，关键是有笔小钱拿，大概是600左右。我很矜持地很沉得住气地立马就答应了。
+说动手就动手，在此之前我没用过Google Map的API，就找了官方主页上的文档去啃。花了大概一个下午的时间把主要功能做出来了，虽然功能很简单，但是我还是遇到一些问题。
+经纬度转换
+先说说SCSL给我的数据，有150多个国家名、各个国家首都的经纬度以及30个左右代表性国家（有照片）。这第一个困难就是怎么把经纬度转成屏幕上的位置信息。借助于Google和Stackoverflow，我得到以下解决方案。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="给国际汉语学院做了一个小APP"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-11-15T02:31:24.000Z"><a href="/2013/11/15/a-google-map-app-for-scsl/">Nov 15 2013</a></time>
+      
+      
+  
+    <h1 class="title">给国际汉语学院做了一个小APP</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>最近一直忙于论文和生活上的琐事，好久没有更新博客了。</p>
+<p>11月11日（这是一个悲伤的日子）的时候接到SCSL（国际汉语学院）给的一个小需求，让我帮他们做一个在地图上展示学院学生风采的小APP，关键是有笔小钱拿，大概是600左右。我很矜持地很沉得住气地立马就答应了。</p>
+<p>说动手就动手，在此之前我没用过Google Map的API，就找了官方主页上的<a href="https://developers.google.com/maps/documentation/javascript/basics">文档</a>去啃。花了大概一个下午的时间把主要功能做出来了，虽然功能很简单，但是我还是遇到一些问题。</p>
+<h2>经纬度转换</h2>
+<p>先说说SCSL给我的数据，有150多个国家名、各个国家首都的经纬度以及30个左右代表性国家（有照片）。这第一个困难就是怎么把经纬度转成屏幕上的位置信息。借助于Google和Stackoverflow，我得到以下解决方案。</p>
+<a name="more"></a>
+
+<figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> overlay = <span class="keyword">new</span> google.maps.OverlayView();
+overlay.draw = <span class="keyword">function</span>() {};
+overlay.setMap(map);
+<span class="keyword">var</span> proj = overlay.getProjection();
+<span class="keyword">var</span> pos = proj.fromLatLngToContainerPixel(latLng);
+</pre></td></tr></table></figure>
+
+
+<p>上述代码中latLng即为某个城市的经纬度信息，具体对象可以为<code>google.maps.LatLng(latitude, longitude)</code>，pos即为映射到屏幕中点的位置信息。至于<code>OverlayView</code>，我到现在还没明白是做什么的。</p>
+<p>但是代码执行过程中，会遇到一个问题，<code>proj is undefined</code>，一通Google之后，才发现在Google Map V3中，只有当Map是idle状态的时候，<code>getProjection</code>才有意义，细思觉有理！那么我就需要监听map的idle事件，然后把上边这一段代码放进去。</p>
+<figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>google.maps.event.addListener(map, <span class="string">'idle'</span>, <span class="keyword">function</span>() {
+    ...
+});
+</pre></td></tr></table></figure>
+
+
+<h2>图层问题</h2>
+<p>先看看最后的效果吧</p>
+<p><img src="http://ww4.sinaimg.cn/large/afba20ebgw1eaidooezxyj21190nxdmh.jpg" alt="APP截图"></p>
+<p>如上所示，我将Google Map给我提供的Map作为一个图层，自己定义了一个Canvas，用来绘制小红点和线，放到map层的上边。这么做有一个很大的问题，就是Canvas会遮挡住map层，导致map层无法接收到鼠标的事件响应！</p>
+<p>我想了一个很傻的办法：增加一个按钮，可以隐藏Canvas层。那么操作流程必须是这样的：先摆正地图的位置，调整好合适的尺寸，然后再点击显示Canvas层，拖动那些图片摆到合适的位置。这个只能算是很临时的解决方案，但是SCSL那边竟然接受了！想想也是，人家只是需要一个截图而已。。。</p>
+<p>今天我发现了一个更好的解决方法，只要给canvas加一个CSS属性即可，因为canvas层完全不需要做鼠标事件响应的。</p>
+<figure class="highlight lang-css"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">pointer</span>-<span class="tag">events</span>: <span class="tag">none</span>;
+</pre></td></tr></table></figure>
+
+
+<p>好一个事件穿透！哈哈~感谢<a href="http://lipengxuan.easymorse.com/?p=127"><a href="http://lipengxuan.easymorse.com/?p=127">http://lipengxuan.easymorse.com/?p=127</a></a></p>
+<h2>最后</h2>
+<p><a href="http://ctmapp.sinaapp.com/"><a href="http://ctmapp.sinaapp.com/">http://ctmapp.sinaapp.com/</a></a>，部署好的应用地址，以上！</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Programming/">Programming</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+  
+    <a href="/2013/10/13/my-interview/" class="next" title="我的找工历程"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

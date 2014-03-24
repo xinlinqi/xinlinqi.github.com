@@ -1,0 +1,400 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 1487.字符串的展开 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="首先要说的是这道题是几天前做的，当时在实验室，然后机器没有配好ruby环境，所以没有在最兴奋的时候即时发表，算是个小小的遗憾。
+然后这是我的大名第一次出现在首页！Congratulations！（后来才发现名字出在首页也就这样，很多题很水，只是没人做而已= =）
+
+
+
+
+题目地址：http://soj.me/1487
+
+解题思路：直接做，好好理解题意，仔细一点，应该无错！判断一个字符是不是数字的时候要判断两端！不要偷懒。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 1487.字符串的展开"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-19T04:00:00.000Z"><a href="/2012/10/19/sicily-1487/">Oct 19 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 1487.字符串的展开</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>首先要说的是这道题是几天前做的，当时在实验室，然后机器没有配好ruby环境，所以没有在最兴奋的时候即时发表，算是个小小的遗憾。</p>
+<p>然后这是我的大名第一次出现在首页！Congratulations！（后来才发现名字出在首页也就这样，很多题很水，只是没人做而已= =）</p>
+<img src="/images/sicily/1487.png">
+
+
+<ul>
+<li><p>题目地址：<a href="http://soj.me/1487"><a href="http://soj.me/1487">http://soj.me/1487</a></a></p>
+</li>
+<li><p>解题思路：直接做，好好理解题意，仔细一点，应该无错！判断一个字符是不是数字的时候要判断两端！不要偷懒。。。</p>
+</li>
+</ul>
+<p><a name="more"></a>
+* 代码：</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+
+<span class="keyword">int</span> p1, p2, p3;
+
+<span class="comment">//只负责输出中间部分。</span>
+<span class="keyword">void</span> printCharsBetween(<span class="keyword">int</span> start, <span class="keyword">int</span> end){
+    <span class="keyword">if</span>(start &gt;= end){
+        <span class="built_in">cout</span> &lt;&lt; <span class="string">"-"</span>;
+        <span class="keyword">return</span>;
+    }
+    <span class="keyword">if</span>(end - start == <span class="number">1</span>){
+        <span class="built_in">cout</span> &lt;&lt; <span class="string">""</span>;
+        <span class="keyword">return</span>;
+    }
+    <span class="keyword">if</span>(p3 == <span class="number">2</span>){
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=end-<span class="number">1</span>; i &gt; start; i--){
+            <span class="keyword">if</span>(p1 == <span class="number">3</span>){
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                    <span class="built_in">cout</span> &lt;&lt; <span class="string">"*"</span>;
+                }
+            }<span class="keyword">else</span>{
+                <span class="comment">//字符子串</span>
+                <span class="keyword">if</span>(start &gt; (<span class="keyword">int</span>)<span class="string">'9'</span>){
+                    <span class="keyword">int</span> delta = (p1 == <span class="number">1</span>)?<span class="number">0</span>:(<span class="string">'A'</span> - <span class="string">'a'</span>);
+                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                        <span class="built_in">cout</span> &lt;&lt; (<span class="keyword">char</span>)(i+delta);
+                    }
+                }<span class="keyword">else</span>{
+                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                        <span class="built_in">cout</span> &lt;&lt; (<span class="keyword">char</span>) i;
+                    }
+                }
+
+            }
+        }		
+    }<span class="keyword">else</span>{
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=start+<span class="number">1</span>; i &lt; end; i++){
+            <span class="keyword">if</span>(p1 == <span class="number">3</span>){
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                    <span class="built_in">cout</span> &lt;&lt; <span class="string">"*"</span>;
+                }
+            }<span class="keyword">else</span>{
+                <span class="comment">//字符子串</span>
+                <span class="keyword">if</span>(start &gt; (<span class="keyword">int</span>)<span class="string">'9'</span>){
+                    <span class="keyword">int</span> delta = (p1 == <span class="number">1</span>)?<span class="number">0</span>:(<span class="string">'A'</span> - <span class="string">'a'</span>);
+                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                        <span class="built_in">cout</span> &lt;&lt; (<span class="keyword">char</span>)(i+delta);
+                    }
+                }<span class="keyword">else</span>{
+                    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; p2; j++){
+                        <span class="built_in">cout</span> &lt;&lt; (<span class="keyword">char</span>) i;
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
+<span class="keyword">void</span> unfoldIt(<span class="built_in">string</span> str){
+    <span class="keyword">if</span>(str.length() &lt;= <span class="number">2</span>){
+        <span class="built_in">cout</span> &lt;&lt; str;
+        <span class="keyword">return</span> ;
+    }
+    <span class="keyword">char</span> prev = str[<span class="number">0</span>], curr=str[<span class="number">1</span>], next = str[<span class="number">2</span>];
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt; str.length()-<span class="number">1</span>; i++){
+        prev = str[i-<span class="number">1</span>];
+        curr = str[i];
+        next = str[i+<span class="number">1</span>];
+        <span class="keyword">if</span>(i == <span class="number">1</span>){
+            <span class="built_in">cout</span> &lt;&lt; prev;
+        }
+
+        <span class="keyword">if</span>(curr != <span class="string">'-'</span>){
+            <span class="built_in">cout</span> &lt;&lt; curr;
+        }<span class="keyword">else</span>{
+
+            <span class="keyword">if</span>((prev &lt;= <span class="string">'9'</span> &amp;&amp; next &lt;= <span class="string">'9'</span> &amp;&amp; prev &gt;= <span class="string">'0'</span> &amp;&amp; next &gt;= <span class="string">'0'</span>) || prev &gt;= <span class="string">'a'</span> &amp;&amp; next &gt;= <span class="string">'a'</span>)
+                printCharsBetween(prev, next);
+            <span class="keyword">else</span>{
+                <span class="built_in">cout</span> &lt;&lt; curr;
+            }
+        }
+        <span class="keyword">if</span>(i == str.length() - <span class="number">2</span>){
+            <span class="built_in">cout</span> &lt;&lt; next;
+        }
+    }
+    
+}
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="built_in">string</span> str;
+    <span class="keyword">bool</span> flag = <span class="keyword">true</span>;
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; p1){
+        <span class="keyword">if</span>(!flag){
+            <span class="built_in">cout</span> &lt;&lt; endl;
+        }
+        <span class="built_in">cin</span> &gt;&gt; p2 &gt;&gt; p3 &gt;&gt; str;
+        unfoldIt(str);
+        <span class="built_in">cout</span> &lt;&lt; endl;
+        flag = <span class="keyword">false</span>;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/22/sicily-1022/" class="prev" title="Sicily 1022.Poor contestant Prob"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/15/sicily-1934/" class="next" title="Sicily 1934. 移动小球"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

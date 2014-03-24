@@ -1,0 +1,370 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 1034. Forest | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="题目地址：
+Sicily. Forest http://soj.me/1034
+解题思路：
+一个非常蛋疼的题目，WA出翔了！以下是我的辉煌战绩，都快占据一页了O.O。。。
+
+
+其实主要是解法出错，画蛇添足。这道题只需进行广搜或深搜中的一种，即可求解森林的深度和宽度。
+而之前那么多次WA的原因是我用深搜求深度，用广搜求宽度。最开始的时候还天真的以为森林里面只有一棵树。现在看来，是各种幼稚就是了。。。
+贴个代码吧，对哦，那么多RE的原因就是改代码改的。。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 1034. Forest"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-31T02:44:00.000Z"><a href="/2012/10/31/sicily-1034/">Oct 31 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 1034. Forest</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>题目地址：</h2>
+<p>Sicily. Forest <a href="http://soj.me/1034"><a href="http://soj.me/1034">http://soj.me/1034</a></a></p>
+<h2>解题思路：</h2>
+<p>一个非常蛋疼的题目，WA出翔了！以下是我的辉煌战绩，都快占据一页了O.O。。。</p>
+<img src="/images/sicily/1034.png">
+
+<p>其实主要是解法出错，画蛇添足。这道题只需进行广搜或深搜中的一种，即可求解森林的深度和宽度。
+而之前那么多次WA的原因是我用深搜求深度，用广搜求宽度。最开始的时候还天真的以为森林里面只有一棵树。现在看来，是各种幼稚就是了。。。
+贴个代码吧，对哦，那么多RE的原因就是改代码改的。。。
+<a name="more"></a></p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+</pre></td><td class="code"><pre><span class="comment">// Problem#: 1034</span>
+<span class="comment">// Submission#: 1597864</span>
+<span class="comment">// The source code is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</span>
+<span class="comment">// URI: http://creativecommons.org/licenses/by-nc-sa/3.0/</span>
+<span class="comment">// All Copyright reserved by Informatic Lab of Sun Yat-sen University</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">int</span> arr[<span class="number">110</span>][<span class="number">110</span>], visit[<span class="number">110</span>], mDepth, mWidth, mArr[<span class="number">110</span>];
+<span class="keyword">bool</span> end_f;
+
+<span class="keyword">struct</span> node{
+    <span class="keyword">int</span> id;
+    <span class="keyword">int</span> level;
+    node(){}
+    node(<span class="keyword">int</span> pId, <span class="keyword">int</span> pLevel){
+        id = pId;
+        level = pLevel;
+    }
+};
+<span class="stl_container"><span class="built_in">queue</span>&lt;node&gt;</span> states;
+
+<span class="keyword">void</span> bfs(<span class="keyword">int</span> level){
+    node temp;
+    <span class="keyword">int</span> width = <span class="number">0</span>;
+    <span class="keyword">while</span>(!states.empty()){
+        temp = states.front();
+        <span class="keyword">if</span>(temp.level != level)     <span class="keyword">break</span>;
+        states.pop();
+        width += arr[temp.id][<span class="number">0</span>];
+        visit[temp.id] = <span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt;= arr[temp.id][<span class="number">0</span>]; i++){
+            <span class="keyword">if</span>(visit[arr[temp.id][i]]){
+                end_f = <span class="keyword">true</span>;
+                <span class="keyword">return</span>;
+            }
+            node newNode(arr[temp.id][i], level+<span class="number">1</span>);
+            states.push(newNode);
+        }
+    }
+    mArr[level + <span class="number">1</span>] += width;
+    <span class="keyword">if</span>(mArr[level]  &gt; mWidth)   mWidth = mArr[level];
+}
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, m, x, y;
+    <span class="keyword">bool</span> isRoot[<span class="number">110</span>];
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; n &amp;&amp; n){
+        memset(arr, <span class="number">0</span>, <span class="keyword">sizeof</span>(arr));
+        memset(visit, <span class="number">0</span>, <span class="keyword">sizeof</span>(visit));
+        memset(isRoot, <span class="keyword">true</span>, <span class="keyword">sizeof</span>(isRoot));
+        memset(mArr, <span class="number">0</span>, <span class="keyword">sizeof</span>(mArr));
+        mDepth = <span class="number">0</span>;
+        mWidth = <span class="number">1</span>;
+        end_f = <span class="keyword">false</span>;
+        <span class="built_in">cin</span> &gt;&gt; m;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; m; i++){
+            <span class="built_in">cin</span> &gt;&gt; x &gt;&gt; y;
+            isRoot[y] = <span class="keyword">false</span>;
+            arr[x][++arr[x][<span class="number">0</span>]] = y;
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt;= n; i++){
+            <span class="keyword">if</span>(isRoot[i]){
+                mArr[<span class="number">0</span>]++;
+                <span class="keyword">int</span> level = <span class="number">0</span>;
+                visit[i] = <span class="number">1</span>;
+                node n(i, <span class="number">0</span>);
+                states.push(n);
+                <span class="keyword">while</span>(!states.empty()){
+                    bfs(level++);
+                    <span class="keyword">if</span>(end_f){
+                        <span class="keyword">while</span>(!states.empty()){
+                            states.pop();
+                        }
+                    }
+                }
+                <span class="keyword">if</span>(level - <span class="number">1</span> &gt; mDepth)  mDepth = level - <span class="number">1</span>;
+            }
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt;= n; i++){
+            <span class="keyword">if</span>(!visit[i] &amp;&amp; !isRoot[i]){
+                end_f = <span class="keyword">true</span>;
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">if</span>(!end_f){
+            <span class="built_in">cout</span> &lt;&lt; mDepth &lt;&lt; <span class="string">" "</span> &lt;&lt; mWidth &lt;&lt; endl;
+        }<span class="keyword">else</span>{
+            <span class="built_in">cout</span> &lt;&lt; <span class="string">"INVALID"</span> &lt;&lt; endl;
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<h3>最后，西西里娘虐我千百倍，我依旧待她如初恋哈哈~~</h3>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/11/03/oom-course-design-problems/" class="prev" title="Java 大作业中遇到的种种问题。"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/25/sicily-1003/" class="next" title="Sicily 1003.Hit or Miss"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

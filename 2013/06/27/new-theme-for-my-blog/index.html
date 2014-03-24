@@ -1,0 +1,214 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>换个主题，换个心情 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="主题用久了，就想换，于是从昨天开始规划要弄成什么样的，今天把它做好了，个人感觉还是很满意的。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="换个主题，换个心情"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-06-27T06:08:11.000Z"><a href="/2013/06/27/new-theme-for-my-blog/">Jun 27 2013</a></time>
+      
+      
+  
+    <h1 class="title">换个主题，换个心情</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>主题用久了，就想换，于是从昨天开始规划要弄成什么样的，今天把它做好了，个人感觉还是很满意的。</p>
+<p><img src="http://ww2.sinaimg.cn/large/5a7a189bgw1e62o5ouzrqj21gp0qddtg.jpg" alt="新出炉的博客主题"></p>
+<a name="more"></a>
+
+<p>该主题是基于Hexo的默认主题进行修改的，大体来说去掉了我认为多余的侧边栏，重新弄了导航栏，去掉了阴影效果以及更改了背景图片。前三个就是简单的去和换，没什么好说的。</p>
+<h2>背景图片</h2>
+<p>背景图片我选择的<a href="http://www.bing.com">Bing</a>壁纸，虽然我最常用Google搜索，正常情况下几乎不用必应，除了像SB大前后Goagent很不稳定的时候，但是不得不说必应的页面背景图片都选的很精美。</p>
+<p>使用必应的图片很方便，虽然微软没有公开相应的API，但是我从网上找到一个获取必应壁纸的方法，然后简单写了几行代码，如下：</p>
+<figure class="highlight lang-php"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="preprocessor">&lt;?php</span>
+<span class="comment">/*
+ * index, days before today. eg. index=0, today's wallpaper; index = 1, yesterday. 
+ */</span>
+    <span class="variable">$index</span> = (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'idx'</span>]))?<span class="variable">$_GET</span>[<span class="string">'idx'</span>]:<span class="number">0</span>;
+    <span class="variable">$xml_url</span> = <span class="string">"http://www.bing.com/HPImageArchive.aspx?format=xml&amp;idx="</span>.<span class="variable">$index</span>.<span class="string">"&amp;n=1&amp;mkt=zh-cn"</span>;
+    
+    <span class="variable">$image_root_url</span> = <span class="string">"http://s.cn.bing.net"</span>;
+    
+    <span class="variable">$content</span> = file_get_contents(<span class="variable">$xml_url</span>);
+    <span class="variable">$contentObj</span> = simplexml_load_string(<span class="variable">$content</span>, <span class="string">'SimpleXMLElement'</span>, LIBXML_NOCDATA);
+    <span class="variable">$url</span> = <span class="variable">$image_root_url</span>.<span class="variable">$contentObj</span>-&gt;image[<span class="number">0</span>]-&gt;url;
+    header(<span class="string">'Location: '</span>.<span class="variable">$url</span>);
+<span class="preprocessor">?&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>然后把这段代码弄到SAE上面，更改idx参数就可以获得不同日期的必应壁纸，不过必应对idx有限制，好像最大就15左右。SAE地址是：<a href="http://bingwp.sinaapp.com"><a href="http://bingwp.sinaapp.com">http://bingwp.sinaapp.com</a></a>，默认是今天的壁纸。</p>
+<p>然后我用了一个很好很强大的Jquery背景插件-<a href="http://vegas.jaysalvat.com/">vegas</a>将必应壁纸图片载入。</p>
+<h2>一些细节修改</h2>
+<ul>
+<li>Hexo默认会对source目录下的所有文件进行Render，这会让纯静态Html文件运行不正常，有人在wiki上提出<a href="https://github.com/tommy351/hexo/issues/158">issue</a>，我将这个加到我现在这个新的主题。只需要将<code>layout.ejs</code>文件用以下内容覆盖就好了。</li>
+</ul>
+<script src="https://gist.github.com/xinlinqi/5874457.js"></script>
+
+<ul>
+<li>更新了愿望单，嘻嘻~</li>
+</ul>
+<h2>致谢</h2>
+<p>首先要感谢<a href="http://zespia.tw/">Tommy351</a>，你的<a href="http://zespia.tw/hexo/">Hexo</a>以及hexo的默认主题真的太棒了，然后要感谢<a href="http://gaodaojing.com/todo">gaodaojing</a>，我的新主题从外观上很大程度参考了你的omega主题。</p>
+<h2>Bye</h2>
+<p><img src="http://ww2.sinaimg.cn/large/5a7a189bgw1e62o0uwt5bj21cy0r10xh.jpg" alt="Bye, 原来的博客"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Hexo/">Hexo</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2013/07/22/small-tools/" class="prev" title="一些实用的小工具"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2013/06/08/new-to-open-weibo/" class="next" title="微博开放平台之一入门"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

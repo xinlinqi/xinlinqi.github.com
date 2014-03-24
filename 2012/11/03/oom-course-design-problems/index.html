@@ -1,0 +1,249 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java 大作业中遇到的种种问题。 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="这篇博文算是一个问题集，希望能把所有在Java大作业中遇到的问题，以及解决方法都记下来。
+就这么开始吧。
+
+1、首先是中文编码问题，把我虐得死去活来，不堪回首。
+Java其实已经提供了很好的中文支持，但是现在还是出现乱码，这只能说是我的RP问题了。。。
+首先放一段代码：
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+package edu.sysu.ss.bms;
+import java.io.*;
+public class Test {
+    public static void main(String args[]) throws Exception {
+        BufferedReader mReader = new BufferedReader(new InputStreamReader(System.in));
+        String something = mReader.readLine();
+        System.out.println(&quot;It 's &quot; + something);
+    }
+}
+
+
+这段代码很简单，就是从标准输入中读入一行字符串，然后输出，这个是支持中文的。但是到我手上运行的时候，当输入为中文时，输出是乱码。
+这是为什么呢？肯定是编码问题，将代码文件的编码改为GBK之后，就可以了。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java 大作业中遇到的种种问题。"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-03T09:04:00.000Z"><a href="/2012/11/03/oom-course-design-problems/">Nov 3 2012</a></time>
+      
+      
+  
+    <h1 class="title">Java 大作业中遇到的种种问题。</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>这篇博文算是一个问题集，希望能把所有在Java大作业中遇到的问题，以及解决方法都记下来。
+就这么开始吧。</p>
+<ul>
+<li><h2>1、首先是中文编码问题，把我虐得死去活来，不堪回首。</h2>
+Java其实已经提供了很好的中文支持，但是现在还是出现乱码，这只能说是我的RP问题了。。。
+首先放一段代码：</li>
+</ul>
+<figure class="highlight lang-java"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">package</span> edu.sysu.ss.bms;
+<span class="keyword">import</span> java.io.*;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> {</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String args[]) <span class="keyword">throws</span> Exception {
+        BufferedReader mReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));
+        String something = mReader.readLine();
+        System.out.println(<span class="string">"It 's "</span> + something);
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>这段代码很简单，就是从标准输入中读入一行字符串，然后输出，这个是支持中文的。但是到我手上运行的时候，当输入为中文时，输出是乱码。
+这是为什么呢？肯定是编码问题，将代码文件的编码改为GBK之后，就可以了。
+<a name="more"></a>
+然后程序中要做的是将读入的东西保存到XML中作持久化。这里又有问题，又放一段代码：</p>
+<figure class="highlight lang-java"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>	<span class="annotation">@Test</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> testSaveUserData(){
+        User pUser = <span class="keyword">new</span> User();
+        pUser.setTruename(<span class="string">"圆神"</span>);
+        XMLDataBase mBase = <span class="keyword">new</span> XMLDataBase();
+        mBase.saveUserData(pUser);
+
+    }
+</pre></td></tr></table></figure>
+
+<p>这样做的话需要将代码文件设为utf-8才能正常保存，如果编码格式为GBK，乱码。</p>
+<p>最后一番折腾之后，将所有代码文件的编码都设为GBK，然后在用JAXB写XML的时候加这么一句</p>
+<pre><code><figure class="highlight"><pre>    <span class="keyword">this</span><span class="variable">.userMarshaller</span><span class="variable">.setProperty</span>(Marshaller<span class="variable">.JAXB_ENCODING</span>, <span class="string">"GBK"</span>);
+</pre></figure></code></pre>
+<p>总算没错了。。。</p>
+<ul>
+<li><h2>2、java.util.ConcurrentModificationException</h2>
+本科的时候虽然没有Java课程，但是我也自己断断续续学了一些，所以用Java编码应该有3年左右了。但还是第一次遇到这个Exception。
+凭空看着这些血色的字眼，自然是发现不了错误的原因的。于是去网上找了解决方法。
+很简单，我是以ArrayList.remove(object)方式来删除的，这样会报上面这个错误；然后只要用ArrayList.remove(index)就没事；</li>
+</ul>
+<p>不求甚解。更何况正在赶作业中。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/11/07/svn-server-on-ubuntu/" class="prev" title="在Ubuntu上安装SVN服务器"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/31/sicily-1034/" class="next" title="Sicily 1034. Forest"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

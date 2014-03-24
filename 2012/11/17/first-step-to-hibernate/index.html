@@ -1,0 +1,268 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hibernate的初步尝试 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="前言
+Java大作业是这个学期我花的时间最长的一次作业了。作业要求是先用文本文件实现持久化，然后再用数据库实现。后来老师又说可以直接用数据库实现，但是那时我已经差不多把文本文件实现的那部分功能做出来了，只能坚持继续做下去。下周就要交数据库实现版本，口头上说说工作量应该不大，因为只需要将存取数据的接口重新实现就好了。但是这之间我遇到了很多麻烦。
+
+首先我看了下MySQL文档中关于Java连接的文档，好像很方便，不考虑性能什么的话，只需要包含一个Jar包，就可以进行数据库操作。于是我去网上找了一个Demo，嗯，运行状况良好。但是一细想，这个和我之前设计的用JAXB的方式出入太大，恐怕不好整合。于是去网上找了之前听说过的Hibernate.
+
+接下来就说我用了一整天的时间来琢磨这个Hibernate的故事。
+
+
+总体感觉
+实验室的网络让我疯狂！GoAgent一直用不顺，大概是因为实验室把IPV6封了的缘故，有毛病！
+不知所措 -&gt; 无奈挣扎-&gt; 痛苦！ -&gt; 痛苦！ -&gt; 痛苦！ -&gt; 痛苦！ -&gt; 喜悦">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Hibernate的初步尝试"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-17T13:57:00.000Z"><a href="/2012/11/17/first-step-to-hibernate/">Nov 17 2012</a></time>
+      
+      
+  
+    <h1 class="title">Hibernate的初步尝试</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>前言</h2>
+<p>Java大作业是这个学期我花的时间最长的一次作业了。作业要求是先用文本文件实现持久化，然后再用数据库实现。后来老师又说可以直接用数据库实现，但是那时我已经差不多把文本文件实现的那部分功能做出来了，只能坚持继续做下去。下周就要交数据库实现版本，口头上说说工作量应该不大，因为只需要将存取数据的接口重新实现就好了。但是这之间我遇到了很多麻烦。</p>
+<ul>
+<li><p>首先我看了下MySQL文档中关于Java连接的文档，好像很方便，不考虑性能什么的话，只需要包含一个Jar包，就可以进行数据库操作。于是我去网上找了一个Demo，嗯，运行状况良好。但是一细想，这个和我之前设计的用JAXB的方式出入太大，恐怕不好整合。于是去网上找了之前听说过的Hibernate.</p>
+</li>
+<li><p>接下来就说我用了一整天的时间来琢磨这个Hibernate的故事。</p>
+</li>
+</ul>
+<h2>总体感觉</h2>
+<p>实验室的网络让我疯狂！GoAgent一直用不顺，大概是因为实验室把IPV6封了的缘故，有毛病！</p>
+<p><code>不知所措</code> -&gt; <code>无奈挣扎</code>-&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>痛苦！</code> -&gt; <code>喜悦</code></p>
+<p><a name="more"></a></p>
+<h2>安装配置。</h2>
+<p>其实无所谓安装配置了（不要理我，刚刚解决了一个问题，头脑混乱）。</p>
+<ul>
+<li><p>去<a href="http://sourceforge.net/projects/hibernate/files/hibernate3/">Hibernate的Sourceforge项目托管地址</a>下载。
+强烈建议下载Hibernate3.X的，因为暂时4.X好像还不成熟，网上很多例子也是基于3.X甚至2.X的。</p>
+</li>
+<li><p>解压缩下载的安装包，然后是比较恶心的类库的选择。lib/required和根目录下的Hibernate.jar是必须要的，其他的看自己情况而定，或者说运行时候出错了，可以加上。</p>
+</li>
+<li><p>在项目文件夹下建一个lib（名字其实随意）目录，将上面的所有Jar文件放到这个目录下面。然后添加到项目的build Path。</p>
+</li>
+</ul>
+<h2>日志的处理</h2>
+<p>由于作业是要求用命令行的，如果把日志显示在Console中就显得非常蛋疼。然而仅仅怎么不让日志显示在Console就花了我一个晚上的时间，虽然是一边看《雷霆扫毒》，一边写代码可能效率有点低。但是一个晚上啊魂淡！</p>
+<p>现在理顺了就很简单。</p>
+<p>首先就是下载<code>slf4j-1.6.1</code>的压缩包，然后选其中的<code>slf4j-api-1.6.1.jar</code>和<code>slf4j-log4j12-1.6.1.jar</code>，放到build path当中。后者相当于是将slf4j和log4j之间的一个转换器。</p>
+<p>然后从Hibernate的project/etc中复制出<code>log4j.properties</code>文件，稍微改一下即可，具体的代码可以见最后给出的项目源代码。</p>
+<p>好吧，还是贴一下配置文件吧，一个所谓的技术博客都是吐槽算是怎么回事。。。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="code"><pre><span class="preprocessor">### direct log messages to stdout ###</span>
+<span class="preprocessor">#log4j.appender.stdout=org.apache.log4j.ConsoleAppender</span>
+<span class="preprocessor">#log4j.appender.stdout.Target=System.out</span>
+<span class="preprocessor">#log4j.appender.stdout.layout=org.apache.log4j.PatternLayout</span>
+<span class="preprocessor">#log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n</span>
+
+<span class="preprocessor">### direct messages to file hibernate.log ###</span>
+log4j<span class="variable">.appender</span><span class="variable">.file</span>=org<span class="variable">.apache</span><span class="variable">.log4j</span><span class="variable">.FileAppender</span>
+log4j<span class="variable">.appender</span><span class="variable">.file</span><span class="variable">.File</span>=hibernate<span class="variable">.log</span>
+log4j<span class="variable">.appender</span><span class="variable">.file</span><span class="variable">.layout</span>=org<span class="variable">.apache</span><span class="variable">.log4j</span><span class="variable">.PatternLayout</span>
+log4j<span class="variable">.appender</span><span class="variable">.file</span><span class="variable">.layout</span><span class="variable">.ConversionPattern</span>=%d{ABSOLUTE} %<span class="number">5</span>p %c{<span class="number">1</span>}:%L - %m%n
+
+<span class="preprocessor">### set log levels - for more verbose logging change 'info' to 'debug' ###</span>
+
+log4j<span class="variable">.rootLogger</span>=warn, file
+
+<span class="preprocessor">#log4j.logger.org.hibernate=info</span>
+log4j<span class="variable">.logger</span><span class="variable">.org</span><span class="variable">.hibernate</span>=debug
+
+<span class="preprocessor">### log HQL query parser activity</span>
+<span class="preprocessor">#log4j.logger.org.hibernate.hql.ast.AST=debug</span>
+
+<span class="preprocessor">### log just the SQL</span>
+<span class="preprocessor">#log4j.logger.org.hibernate.SQL=debug</span>
+
+<span class="preprocessor">### log JDBC bind parameters ###</span>
+log4j<span class="variable">.logger</span><span class="variable">.org</span><span class="variable">.hibernate</span><span class="variable">.type</span>=info
+<span class="preprocessor">#log4j.logger.org.hibernate.type=debug</span>
+
+<span class="preprocessor">### log schema export/update ###</span>
+log4j<span class="variable">.logger</span><span class="variable">.org</span><span class="variable">.hibernate</span><span class="variable">.tool</span><span class="variable">.hbm2ddl</span>=debug
+</pre></td></tr></table></figure>
+
+
+<h2>后记</h2>
+<p>不想写了，不堪回首。。。</p>
+<p>最后贴个<a href="/upload/EmployeeTest.rar">项目代码</a>，以儆效尤~不过要运行的话，肯定要有MySQL，还要建特定的数据库，特定的表咯。。。</p>
+<img src="/images/20121118.png">
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Java/">Java</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/12/31/my-2012/" class="prev" title="我的2012"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/11/07/svn-server-on-ubuntu/" class="next" title="在Ubuntu上安装SVN服务器"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

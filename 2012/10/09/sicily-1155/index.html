@@ -1,0 +1,416 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 1155. Can I Post the letter | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="题目地址：http://soj.me/1155
+解题思路：首先我用的是深搜，结果超时。。。将节点按能到达的大小排序，也超时。。。
+
+然后突然想到，这个不是和校门外的树是同一道题吗？就是用一个数组保存某个节点是否被访问到，如果所有节点都能被访问到，则说明能从0到N-1（这神一般的逻辑，待会儿狠狠地批一下。。。）。然后花了2、3分钟写好，将题目给出的测试用例试了一下，提交，AC了，。。见代码1
+但是咧，这其实是错误的解法。Sicily的测试系统过了，只能说明Sicily这道题的测试数据太弱了，这个算法是错的。譬如给出以下用例：
+1
+2
+3
+4
+4
+2
+0 2
+1 3
+
+
+用我的程序跑是可以到达的，而画个图，很明显，从0是到不了3的，也就是应该是到达不了的。。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 1155. Can I Post the letter"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-09T07:36:00.000Z"><a href="/2012/10/09/sicily-1155/">Oct 9 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 1155. Can I Post the letter</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>题目地址：<a href="http://soj.me/1155"><a href="http://soj.me/1155">http://soj.me/1155</a></a></li>
+<li>解题思路：首先我用的是深搜，结果超时。。。将节点按能到达的大小排序，也超时。。。</li>
+</ul>
+<p>然后突然想到，这个不是和<a href="http://soj.me/1145">校门外的树</a>是同一道题吗？就是用一个数组保存某个节点是否被访问到，如果所有节点都能被访问到，则说明能从0到N-1（这神一般的逻辑，待会儿狠狠地批一下。。。）。然后花了2、3分钟写好，将题目给出的测试用例试了一下，提交，AC了，。。见<code>代码1</code></p>
+<p>但是咧，这其实是错误的解法。Sicily的测试系统过了，只能说明Sicily这道题的测试数据太弱了，这个算法是错的。譬如给出以下用例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="number">4</span>
+<span class="number">2</span>
+<span class="number">0</span> <span class="number">2</span>
+<span class="number">1</span> <span class="number">3</span>
+</pre></td></tr></table></figure>
+
+<p>用我的程序跑是可以到达的，而画个图，很明显，从0是到不了3的，也就是应该是到达不了的。。</p>
+<a name="more"></a>
+
+<p>然后我就去网上搜题解。看到一个神奇的用了沃尔算法的<a href="http://blog.csdn.net/detective_xin/article/details/7215598">题解</a>，听上去很炫，但看代码之后才发现是最最最直接的解法！我根据这个算法重新提交了，AC。竟然没超时，三重循环耶！见<code>代码2</code>。</p>
+<p>最后我看了另一个题解，让我感到气愤！为什么我的深搜TLE，他的深搜就AC？知道深搜可以解题后，我拿回第一次提交的代码，重新改。见<code>代码3</code></p>
+<p>下面贴出代码：</p>
+<ul>
+<li>代码1<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">int</span> canVisit[<span class="number">200</span>];
+<span class="keyword">bool</span> hasPath;
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, m, a, b;
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; n &amp;&amp; n){
+        <span class="built_in">cin</span> &gt;&gt; m;
+        hasPath = <span class="keyword">true</span>;
+        memset(canVisit, <span class="number">0</span>, <span class="keyword">sizeof</span>(canVisit));
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; m; i++){
+            <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i = a; i &lt;= b; i++){
+                canVisit[i] = <span class="number">1</span>;
+            }
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; n; i++){
+            <span class="keyword">if</span> (!canVisit[i]){
+                hasPath = <span class="keyword">false</span>;
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">if</span>(hasPath){
+            <span class="built_in">cout</span> &lt;&lt; <span class="string">"I can post the letter"</span> &lt;&lt; endl;
+        }<span class="keyword">else</span>{
+            <span class="built_in">cout</span> &lt;&lt; <span class="string">"I can't post the letter"</span> &lt;&lt; endl;
+        }
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li>代码2<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, m, arr[<span class="number">200</span>][<span class="number">200</span>], a, b;
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; n &amp;&amp; n){
+        memset(arr, <span class="number">0</span>, <span class="keyword">sizeof</span>(arr));
+        <span class="built_in">cin</span> &gt;&gt; m;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; m; i++){
+            <span class="built_in">cin</span> &gt;&gt; a &gt;&gt; b;
+            arr[a][b] = <span class="number">1</span>;
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; n; i++){
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; n; j++){
+                <span class="keyword">if</span>(arr[i][j] == <span class="number">1</span>){
+                    <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>; k &lt; n; k++){
+                        <span class="keyword">if</span>(arr[j][k] == <span class="number">1</span>){
+                            arr[i][k] = <span class="number">1</span>;
+                        }
+                    }
+                }
+            }
+        }
+        <span class="keyword">if</span>(arr[<span class="number">0</span>][n-<span class="number">1</span>] == <span class="number">1</span>){
+            <span class="built_in">cout</span> &lt;&lt; <span class="string">"I can post the letter"</span> &lt;&lt; endl;
+        }<span class="keyword">else</span>{
+            <span class="built_in">cout</span> &lt;&lt; <span class="string">"I can't post the letter"</span> &lt;&lt; endl;
+        }
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<p>代码3</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;cstring&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> n,m,t1,t2;
+<span class="keyword">int</span> canReach[<span class="number">210</span>][<span class="number">210</span>];
+<span class="keyword">int</span> hasReached[<span class="number">210</span>];
+<span class="keyword">void</span> dfs(<span class="keyword">int</span> t)
+{
+    hasReached[t] = <span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    <span class="keyword">if</span>(!hasReached[i] &amp;&amp; canReach[t][i])
+        dfs(i);
+}
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">while</span>(<span class="keyword">true</span>)
+    {
+        <span class="built_in">cin</span> &gt;&gt; n;
+        <span class="keyword">if</span>(n == <span class="number">0</span>)<span class="keyword">break</span>;
+        <span class="built_in">cin</span>&gt;&gt; m;
+        memset(canReach,<span class="number">0</span>,<span class="keyword">sizeof</span>(canReach));
+        memset(hasReached,<span class="number">0</span>,<span class="keyword">sizeof</span>(hasReached));
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)
+        {
+            <span class="built_in">cin</span> &gt;&gt; t1&gt;&gt;t2;
+            canReach[t1][t2] = <span class="number">1</span>;
+        }
+        dfs(<span class="number">0</span>);
+        <span class="keyword">if</span>(hasReached[n-<span class="number">1</span>])
+            <span class="built_in">cout</span> &lt;&lt;<span class="string">"I can post the letter"</span>&lt;&lt;endl;
+        <span class="keyword">else</span>
+            <span class="built_in">cout</span> &lt;&lt;<span class="string">"I can't post the letter"</span>&lt;&lt;endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<ul>
+<li>总结： 一道AC1200多的题目，也让我纠结这么久，真是像某圆说的，我弱爆了！！！</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/09/sicily-1028/" class="prev" title="Sicily 1028. Hanoi Tower Sequence"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/08/sicily-1218/" class="next" title="sicily 1218.纪念邮票"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

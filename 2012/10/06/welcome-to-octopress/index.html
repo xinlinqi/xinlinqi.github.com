@@ -1,0 +1,288 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>octopress 基本上搭建完成了!!! | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="经过一个上午的奋战，我终于在Github上搭建了自己的博客。
+最开始的时候是参考了jekyll博客引擎的搭建，在Github上弄了一个jeklly Demo。
+完成的时候很兴奋，也很新奇，感觉Github真的太强大了！我之前一直以为Github只是一个和SVN差不多的代码管理工具，只是对代码文件进行管理，没想到他还能扮演一个类似服务器的角色！
+以下来记录一下我的建博历程以及遇到的问题及解决方法。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="octopress 基本上搭建完成了!!!"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-06T07:02:00.000Z"><a href="/2012/10/06/welcome-to-octopress/">Oct 6 2012</a></time>
+      
+      
+  
+    <h1 class="title">octopress 基本上搭建完成了!!!</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>经过一个上午的奋战，我终于在Github上搭建了自己的博客。</p>
+<p>最开始的时候是参考了<a href="http://blog.leezhong.com/tech/2010/08/25/make-github-as-blog-engine.html">jekyll博客引擎的搭建</a>，在Github上弄了一个jeklly Demo。</p>
+<p>完成的时候很兴奋，也很新奇，感觉Github真的太强大了！我之前一直以为Github只是一个和SVN差不多的代码管理工具，只是对代码文件进行管理，没想到他还能扮演一个类似服务器的角色！</p>
+<p>以下来记录一下我的建博历程以及遇到的问题及解决方法。</p>
+<img src="/images/qb_1.jpg">
+
+<a name="more"></a>
+
+<h2>建立Github Page</h2>
+<p>当我们访问username.github.com的时候，Github会返回一个404错误，但是注意往下看，会发现有个指向建立Github Page文档的链接。</p>
+ <img src="/images/github_404_page.png">
+
+
+<p> 具体方法很简单，只要建立一个以<code>usernmae.github.com</code>（例如<code>xinlinqi.github.com</code>）的库，然后在根目录下放一个<code>index.html</code>文件即可访问</p>
+<h2>搭建octopress本地环境</h2>
+<p>从某方面来说，大牛们可能会鄙视我，因为我是个windows的死忠。在一些大牛眼中，windows就是个渣渣，如果一个程序员不用Linux，不用vi，就是一辈子都是水货的货。其实，我是打心里敬佩使用Linux的大牛们。不扯蛋了，反正我接下来都是在Windows基础上来说的。</p>
+<ul>
+<li><p>安装ruby。可以进入<a href="http://rubyforge.org/frs/?group_id=167">RubyForge</a>进行下载，我下载的是<a href="http://rubyforge.org/frs/download.php/76054/rubyinstaller-1.9.3-p194.exe">rubyinstaller-1.9.3-p194.exe</a>。</p>
+</li>
+<li><p>安装gem编译环境。下载地址：<a href="https://github.com/downloads/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe">DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe</a>，其实这是个7z压缩文件，解压到一个目录，然后执行下述操作。</p>
+<pre><code><figure class="highlight"><pre>  cd F:\DevKit
+  ruby dk<span class="variable">.rb</span> init
+  ruby dk<span class="variable">.rb</span> instal
+</pre></figure></code></pre>
+</li>
+<li><p>安装Git。<a href="https://help.github.com/articles/set-up-git">下载地址</a></p>
+</li>
+<li><p>安装rdoc和bundle</p>
+<pre><code><figure class="highlight"><pre>  <span class="title">gem</span> install rdoc bundler
+</pre></figure></code></pre>
+</li>
+</ul>
+<h2>其他准备</h2>
+<ul>
+<li><p>由于国内网络原因（大家懂的~），Ruby更新源一直不稳定，在执行<code>gem install ***</code>的时候可能会半天没响应。解决方法就是用淘宝提供的更新源。方法如下</p>
+<pre><code><figure class="highlight"><pre>  <span class="title">gem</span> source -r <span class="url">http://rubygems.org/</span>
+  gem source -a <span class="url">http://ruby.taobao.org
+</pre></figure></code></pre>
+</li>
+</ul>
+<p>由于接下来还会用到bundle，还得修改Gemfile文件</p>
+<pre><code><figure class="highlight"><pre>    <span class="title">source</span> <span class="string">'http://ruby.taobao.org'</span>
+</pre></figure></code></pre>
+<ul>
+<li>在Windows底下有些乱码问题让人纠结到死，譬如我在这次安装过程中，就遇到一些乱码问题，比如markdown文件中加入中文的话,<code>rake generate</code>的时候会出错。</li>
+</ul>
+<p>具体解决方法是首先在系统环境变量中加入LANG和LC_ALL，如下图所示：</p>
+<img src="/images/lang_lc_all.png">
+
+
+<p>然后在编辑markdown文件的时候注意将编码调为utf-8 无BOM格式。（这些都是后话啦，好像有点乱序了。。）</p>
+<h2>安装octopress</h2>
+<ul>
+<li><p>下载octopress源码</p>
+<pre><code><figure class="highlight"><pre>  <span class="title">git</span> clone <span class="url">git://github.com/imathis/octopress.git</span> octopress
+</pre></figure></code></pre>
+</li>
+<li><p>安装依赖模块</p>
+<pre><code><figure class="highlight"><pre>  <span class="variable">$ </span>bundle install
+</pre></figure></code></pre>
+</li>
+<li><p>安装，此刻安装的是默认主题。</p>
+<pre><code><figure class="highlight"><pre>  <span class="variable">$ </span>rake install
+</pre></figure></code></pre>
+</li>
+</ul>
+<h2>将octopress发布到Github</h2>
+<ul>
+<li><p>第一次发布的时候需要与Github建立连接。</p>
+<pre><code><figure class="highlight"><pre>  rake setup_github_pages
+  按照提示输入url地址，例如：git@github<span class="variable">.com</span>:xinlinqi/xinlinqi<span class="variable">.github</span><span class="variable">.com</span><span class="variable">.git</span>
+</pre></figure></code></pre>
+</li>
+<li><p>生成静态页面、发布</p>
+<pre><code><figure class="highlight"><pre>  <span class="title">rake</span> generate
+  rake deploy
+</pre></figure></code></pre>
+</li>
+</ul>
+<p>如果需要本地查看效果的话，执行</p>
+<pre><code><figure class="highlight"><pre>    <span class="title">rake</span> preview
+</pre></figure></code></pre>
+<p>即可通过访问<a href="http://localhost:4000"><a href="http://localhost:4000">http://localhost:4000</a></a>进行查看</p>
+<ul>
+<li><p>如果你想将自己的博客配置源代码分享给其他人的话，可以上传</p>
+<pre><code><figure class="highlight"><pre>  <span class="comment">git</span> <span class="comment">add</span> <span class="string">.</span>
+  <span class="comment">git</span> <span class="comment">commit</span> <span class="literal">-</span><span class="comment">m</span> <span class="comment">"open</span> <span class="comment">source"</span>
+  <span class="comment">git</span> <span class="comment">push</span> <span class="comment">orign</span> <span class="comment">source
+</pre></figure></code></pre>
+</li>
+</ul>
+<p>即可在Github上建立一个Source Branch用来保存你的源码。</p>
+<h2>其他的一些配置，<code>_config.yml</code>文件。</h2>
+<ul>
+<li><p>增加评论。octopress中内置了Disqus作为其评论插件，使用也很简单。只需改以下参数，唯一要注意的是disqus_short_name不是你的注册用户名！</p>
+<pre><code><figure class="highlight"><pre>  <span class="attribute">disqus_short_name</span>: <span class="string">xinlinqisblog</span>
+  <span class="attribute">disqus_show_comment_count</span>: <span class="string">true</span>
+</pre></figure></code></pre>
+</li>
+<li><p>修改博客的基本信息。</p>
+<pre><code><figure class="highlight"><pre>  <span class="attribute">url</span>: <span class="string">http://xinlinqi.github.com</span>
+  <span class="attribute">title</span>: <span class="string">Mr.Driver</span>
+  <span class="attribute">subtitle</span>: <span class="string">A blogging framework for hackers.</span>
+  <span class="attribute">author</span>: <span class="string">xinlinqi</span>
+  <span class="attribute">simple_search</span>: <span class="string">http://google.com/search</span>
+  <span class="attribute">description:
+</pre></figure></code></pre>
+</li>
+</ul>
+<p>最后，总算搭建好了一个博客，其实我之前已经有了一个在新浪SAE上的<a href="http://xinlinqi.sinaapp.com">博客</a>了，只是没有怎么用，现在搭建了一个，也许也不会怎么用。。囧~算了，还是写些东西，记录下生活的点点滴滴吧！</p>
+<h2>遇到的Errors</h2>
+<ul>
+<li>undefined method `Py_IsInitialized&#39; for RubyPython::Python:Module</li>
+</ul>
+<img src="/images/error_20121019.png">
+
+
+<p>解决方法：安装python, pygment, 然后<code>gem update</code>, <code>bundle update</code></p>
+<h2>参考文献 O.O</h2>
+<ul>
+<li><a href="http://octopress.org/docs/blogging/"><a href="http://octopress.org/docs/blogging/">http://octopress.org/docs/blogging/</a></a></li>
+<li><a href="http://www.cnblogs.com/rubylouvre/archive/2012/06/10/2543706.html"><a href="http://www.cnblogs.com/rubylouvre/archive/2012/06/10/2543706.html">http://www.cnblogs.com/rubylouvre/archive/2012/06/10/2543706.html</a></a></li>
+<li><a href="http://zespia.tw/blog/2012/01/25/slash-theme/"><a href="http://zespia.tw/blog/2012/01/25/slash-theme/">http://zespia.tw/blog/2012/01/25/slash-theme/</a></a></li>
+<li>还有其他已经被我关掉的、已经在天国的标签页。</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Life/">Life</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/06/sicily-1001/" class="prev" title="Sicily 1001. Alphacode "><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/08/23/something-about-cppi/" class="next" title="C++学习摘要："><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,182 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>毕业设计之惑Part One | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="如何处理Canvas的遮挡问题？
+
+Canvas对应的是墙，Div对应的是各种家具。我现在的做法是每堵墙都是一个独立的Canvas，但是这样做在移动墙的时候有一个很大的问题。Canvas里面的元素（如一条线，一个圆弧）原则上是无法绑定事件的，相应事件的只能是Canvas本身，这样一条线的拖拽其实就相">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="毕业设计之惑Part One"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+      
+  
+    <h1 class="title">毕业设计之惑Part One</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><p>如何处理Canvas的遮挡问题？</p>
+<blockquote>
+<p>Canvas对应的是墙，Div对应的是各种家具。我现在的做法是每堵墙都是一个独立的Canvas，但是这样做在移动墙的时候有一个很大的问题。Canvas里面的元素（如一条线，一个圆弧）原则上是无法绑定事件的，相应事件的只能是Canvas本身，这样一条线的拖拽其实就相当于一个Canvas矩形的拖拽。不同的Canvas之间会有很明显的遮挡问题。。。</p>
+</blockquote>
+<p>  我能想到最直接的解决方法就是将整个content用一个Canvas覆盖，家具组件本身其实是absolute布局的一个个小小的div，但是这样做的话代码要改好多。。。</p>
+<blockquote>
+<p>能不能尝试用判断当前鼠标位置的方法模拟事件响应？</p>
+</blockquote>
+<p>  由于原先设计Canvas是独立的，也就是有多少墙，就有多少Canvas。这样模拟的话得把每个Canvas的位置信息，每个线条（墙）的信息都要存储下来吧，这样的工作量有点恐怖吧。。。还得考虑到数据同步问题，墙的拖动除了本身位置信息的改变外海会引起Canvas的位置信息的变化。</p>
+<p>  如果将整个content作为一个Canvas应该不会有这样的问题，恩就这样了。</p>
+</li>
+<li><p>关于模型库，<code>2013.9.3</code></p>
+<p>  今天在整理模型库，发现有些模型能够正常载入，并加载纹理。比如ThreeJS例子中用到的<code>male02.obj</code>。经过反复测试，我也找到一些能够正常运作的模型。刚开始以为mtl文件是在载入obj的时候自动载入的，因为在用到obj文件的首行一般都有<code>mtllib xx.mtl</code>。后来思(Gu)考(Ge)后发现完全不是这样的。。。</p>
+<blockquote>
+<p>ThreeJS 提供了另一个加载外部Model的库，叫OBJMTLLoader。加载包含mtl的obj文件的时候需要用到这个库。用法如下：</p>
+<figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">var</span> loader = <span class="keyword">new</span> THREE.OBJMTLLoader();
+loader.load(<span class="string">'xx.obj'</span>, <span class="string">'xx.mtl'</span>);
+</pre></td></tr></table></figure>
+
+
+</blockquote>
+</li>
+</ul>
+<pre><code><figure class="highlight"><pre>还有个问题就是模型载入后，由于ThreeJS场景中三维物体的中心点是在中心的（废话），相对于正常HTML元素是以左上角的点作为位置标识而言。这样就导致载入的时候模型会显得很诡异——下半身没了。。
+
+&gt; 最直接的想法是这样的：先确定Object3D的Width，Height，Depth，由于Object3D是一组`geometry` 组合的结果，所以需要遍历该Object3D所有孩子，`max min`一下。在好好思(Gu)考(Ge)了之后，我在ThreeJS的Github页面找到了解决方法，[https://github.com/mrdoob/three.js/issues/581](https://github.com/mrdoob/three.js/issues/581)。代码如下所示
+
+<span class="tag">&lt;<span class="title">notextile</span>&gt;</span>1<span class="tag">&lt;/<span class="title">notextile</span>&gt;</span>
+
+
+但是这样之后，还是有误差！！！
+
+&gt; 那可能是模型本身的问题啦~~我现在的做法有点恶心：在模型库中设置了一个位移量。。。然后慢慢细调，找到最适合的值，保存起来~
+</pre></figure></code></pre>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

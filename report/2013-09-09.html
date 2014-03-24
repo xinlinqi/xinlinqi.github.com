@@ -1,0 +1,276 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>周报之四：模型库的建立 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="这周最主要的工作是整理了模型库。
+模型库的设计
+模型库数据表的设计主要分为三个部分，一张Geometry表保存家具的模型信息，一张Texture表保存家具的纹理信息，一张Furniture表是Geometry和Texture的组合形式，由于手上没有画ER图的工具，就贴个MySQL代码了。
+1
+2
+3">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="周报之四：模型库的建立"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+      
+  
+    <h1 class="title">周报之四：模型库的建立</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>这周最主要的工作是整理了模型库。</p>
+<h2>模型库的设计</h2>
+<p>模型库数据表的设计主要分为三个部分，一张Geometry表保存家具的模型信息，一张Texture表保存家具的纹理信息，一张Furniture表是Geometry和Texture的组合形式，由于手上没有画ER图的工具，就贴个MySQL代码了。</p>
+<figure class="highlight lang-mysql"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+</pre></td><td class="code"><pre><span class="literal">-</span><span class="literal">-</span>
+<span class="literal">-</span><span class="literal">-</span> <span class="comment">表的结构</span> <span class="comment">`furniture`</span>
+<span class="literal">-</span><span class="literal">-</span>
+
+<span class="comment">CREATE</span> <span class="comment">TABLE</span> <span class="comment">IF</span> <span class="comment">NOT</span> <span class="comment">EXISTS</span> <span class="comment">`furniture`</span> <span class="comment">(</span>
+  <span class="comment">`id`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">AUTO_INCREMENT</span>,
+  <span class="comment">`gid`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`mid`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`name`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`type`</span> <span class="comment">varchar(20)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`top_view`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`perspective_view`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`elevation`</span> <span class="comment">int(11)</span> <span class="comment">DEFAULT</span> <span class="comment">'0'</span>,
+  <span class="comment">`scale`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">DEFAULT</span> <span class="comment">'1'</span>,<span class="comment">			</span>-<span class="literal">-</span> <span class="comment">模型大小的微调</span>
+  <span class="comment">`tunex`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">DEFAULT</span> <span class="comment">'0'</span>,<span class="comment">			</span>-<span class="literal">-</span> <span class="comment">模型位置x轴方向的微调</span>
+  <span class="comment">`tuney`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">DEFAULT</span> <span class="comment">'0'</span>,<span class="comment">			</span>-<span class="literal">-</span> <span class="comment">模型位置y轴方向的微调</span>
+  <span class="comment">`tunez`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">DEFAULT</span> <span class="comment">'0'</span>,<span class="comment">			</span>-<span class="literal">-</span> <span class="comment">模型位置z轴方向的微调</span>
+  <span class="comment">PRIMARY</span> <span class="comment">KEY</span> <span class="comment">(`id`)</span>,
+  <span class="comment">KEY</span> <span class="comment">`gid`</span> <span class="comment">(`gid`)</span>,
+  <span class="comment">KEY</span> <span class="comment">`mid`</span> <span class="comment">(`mid`)</span>
+<span class="comment">)</span> <span class="comment">ENGINE=InnoDB</span>  <span class="comment">DEFAULT</span> <span class="comment">CHARSET=utf8</span> <span class="comment">AUTO_INCREMENT=8</span> <span class="comment">;</span>
+
+<span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+
+<span class="literal">-</span><span class="literal">-</span>
+<span class="literal">-</span><span class="literal">-</span> <span class="comment">表的结构</span> <span class="comment">`geometry`</span>
+<span class="literal">-</span><span class="literal">-</span>
+
+<span class="comment">CREATE</span> <span class="comment">TABLE</span> <span class="comment">IF</span> <span class="comment">NOT</span> <span class="comment">EXISTS</span> <span class="comment">`geometry`</span> <span class="comment">(</span>
+  <span class="comment">`id`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">AUTO_INCREMENT</span>,
+  <span class="comment">`name`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`type`</span> <span class="comment">varchar(50)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`url`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`other`</span> <span class="comment">varchar(200)</span> <span class="comment">DEFAULT</span> <span class="comment">NULL</span>,
+  <span class="comment">PRIMARY</span> <span class="comment">KEY</span> <span class="comment">(`id`)</span>
+<span class="comment">)</span> <span class="comment">ENGINE=InnoDB</span>  <span class="comment">DEFAULT</span> <span class="comment">CHARSET=utf8</span> <span class="comment">AUTO_INCREMENT=8</span> <span class="comment">;</span>
+
+<span class="literal">-</span><span class="literal">-</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+
+<span class="literal">-</span><span class="literal">-</span>
+<span class="literal">-</span><span class="literal">-</span> <span class="comment">表的结构</span> <span class="comment">`material`</span>
+<span class="literal">-</span><span class="literal">-</span>
+
+<span class="comment">CREATE</span> <span class="comment">TABLE</span> <span class="comment">IF</span> <span class="comment">NOT</span> <span class="comment">EXISTS</span> <span class="comment">`material`</span> <span class="comment">(</span>
+  <span class="comment">`id`</span> <span class="comment">int(11)</span> <span class="comment">NOT</span> <span class="comment">NULL</span> <span class="comment">AUTO_INCREMENT</span>,
+  <span class="comment">`name`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">`url`</span> <span class="comment">varchar(200)</span> <span class="comment">NOT</span> <span class="comment">NULL</span>,
+  <span class="comment">PRIMARY</span> <span class="comment">KEY</span> <span class="comment">(`id`)</span>
+<span class="comment">)</span> <span class="comment">ENGINE=InnoDB</span>  <span class="comment">DEFAULT</span> <span class="comment">CHARSET=utf8</span> <span class="comment">AUTO_INCREMENT=2</span> <span class="comment">;</span>
+
+</pre></td></tr></table></figure>
+
+
+<h2>模型库的建立</h2>
+<p>我是个SweetHome提供的3D模型库中收集模型的。但是他们提供的模型不是拿来就可以用的，所以，我单独写了一个页面，来进行模型的验证工作。验证一般分为以下步骤进行：</p>
+<ul>
+<li>模型是否能够正常载入。</li>
+<li>模型的文理是否能够正常载入。</li>
+<li>对模型的大小进行微调。</li>
+<li>对模型的位置信息进行微调。</li>
+<li>最后需要编写一段代码来获取模型的Top View，然后手工截图。。。</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/5a7a189bgw1e8gl6nnynsj20qi0gjt9o.jpg" alt="Top view"></p>
+<p>以上工作耗费了大量的时间，目前只收集了具有代表性的6个家具模型，详细见最后附的Demo地址。</p>
+<h2>模型的纹理</h2>
+<p>在对模型的纹理的认知过程中，我粗略了解了一个3D模型的贴纹理的几种方式，参考自：<a href="http://open.gl/textures"><a href="http://open.gl/textures">http://open.gl/textures</a></a>：</p>
+<ul>
+<li>GL_CLAMP_TO_EDGE: The coordinate will simply be clamped between 0 and 1.</li>
+<li>GL_CLAMP_TO_BORDER: The coordinates that fall outside the range will be given a specified border color.</li>
+<li>GL_REPEAT: The integer part of the coordinate will be ignored and a repeating pattern is formed.（是我们需要的方式）</li>
+<li>GL_MIRRORED_REPEAT: The texture will also be repeated, but it will be mirrored when the integer part of the coordinate is odd.</li>
+</ul>
+<p><img src="http://open.gl/media/img/c3_clamping.png" alt="texture"></p>
+<p>这个最直接的效果是体现在Demo演示中墙的纹理上面。</p>
+<p>最后，一个初步的家居设计的Demo展示见：<a href="http://dhol.sinaapp.com/"><a href="http://dhol.sinaapp.com/">http://dhol.sinaapp.com/</a></a>。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

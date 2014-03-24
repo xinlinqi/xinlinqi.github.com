@@ -1,0 +1,264 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 2501. 算算式 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="这题是昨晚刚做的，本想挑战一下自己，就选了一道AC数只有230的这道。想了老半天没想出怎么解，然后宿舍一位算法帝路过，这个嘛，二分嘛！有如当头棒喝= =！
+不过做这题的时候还是WA了好几次，晒下我的辉煌战绩:">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 2501. 算算式"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-06T09:25:00.000Z"><a href="/2012/10/06/sicily-2501/">Oct 6 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 2501. 算算式</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>这题是昨晚刚做的，本想挑战一下自己，就选了一道AC数只有230的这道。想了老半天没想出怎么解，然后宿舍一位算法帝路过，这个嘛，二分嘛！有如当头棒喝= =！</p>
+<p>不过做这题的时候还是WA了好几次，晒下我的辉煌战绩:</p>
+<img src="/images/sicily_2501.png">
+
+
+<p><a name="more"></a>
+后来看网上的题解，然后对照我的运行结果和他的运行结果，发现k=0的时候竟然返回0才是正确的！这尼玛，瞬间被雷劈的感觉。好吧，那就返回0吧，果然AC了。。
+就这样喽，具体代码如下：</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre></td><td class="code"><pre><span class="comment">// Problem#: 2501</span>
+<span class="comment">// Submission#: 1505175</span>
+<span class="comment">// The source code is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</span>
+<span class="comment">// URI: http://creativecommons.org/licenses/by-nc-sa/3.0/</span>
+<span class="comment">// All Copyright reserved by Informatic Lab of Sun Yat-sen University</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">const</span> <span class="keyword">int</span> digit = <span class="number">9901</span>;
+
+<span class="keyword">int</span> pow2(<span class="keyword">int</span> n, <span class="keyword">int</span> k){
+    <span class="keyword">if</span>(k == <span class="number">1</span>){
+        <span class="keyword">return</span> n % digit;
+    }
+    <span class="keyword">if</span>(k % <span class="number">2</span> == <span class="number">0</span>){
+        <span class="keyword">int</span> temp = pow2(n, k/<span class="number">2</span>);
+        <span class="keyword">return</span> (temp * temp) % digit;
+    }<span class="keyword">else</span>{
+        <span class="keyword">int</span> temp = pow2(n, (k - <span class="number">1</span>)/<span class="number">2</span>);
+        temp = (temp * temp) % digit;
+        <span class="keyword">return</span> (temp * n) % digit;
+    }
+}
+
+<span class="keyword">int</span> addition(<span class="keyword">int</span> n, <span class="keyword">int</span> k){
+    <span class="keyword">if</span>(n == <span class="number">0</span> || k == <span class="number">0</span>){
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+    <span class="keyword">if</span>(k == <span class="number">1</span>){
+        <span class="keyword">return</span> n % digit;
+    }
+    <span class="keyword">if</span>(k % <span class="number">2</span> == <span class="number">0</span>){
+        <span class="keyword">return</span> ((pow2(n, k / <span class="number">2</span>) + <span class="number">1</span>) * addition(n, k/<span class="number">2</span>)) % digit;
+    }<span class="keyword">else</span>{
+        <span class="keyword">int</span> temp = pow2(n, (k + <span class="number">1</span>) / <span class="number">2</span>);
+        <span class="keyword">return</span> ((temp + <span class="number">1</span>) * addition(n, (k-<span class="number">1</span>)/<span class="number">2</span>) + temp) % digit ;
+    }
+}
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, k;
+    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; k;
+    <span class="built_in">cout</span> &lt;&lt; addition(n, k) &lt;&lt; endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+
+<p>说到网上的题解，大部分都是用费马小定理，也就是欧拉定理的一个特殊情况。具体见<a href="http://blog.csdn.net/luojiayu14/article/details/7089499">费马1</a>，以及<a href="http://lcc3536.blog.163.com/blog/static/13246991720114981735219/">费马2</a>，前者代码更简单。。。因为他好像用到另外一个很强大的东西，就是说当a和p互质的时候，<code>(a + a^2 + ... + a^p-1) mod p = 0</code>，我取了一些特例，都是对的，但就是无法证明。。。于是就这样喽，数学太烂了。如果以后遇到，我就用第二种解法做！！哼~</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/07/sicily-1486/" class="prev" title="Sicily 1486. 统计数字"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/06/sicily-1001/" class="next" title="Sicily 1001. Alphacode "><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

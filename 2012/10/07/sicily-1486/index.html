@@ -1,0 +1,249 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sicily 1486. 统计数字 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="不想说什么了。。。做这个题我4次TLE！！！">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sicily 1486. 统计数字"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-06T16:10:00.000Z"><a href="/2012/10/07/sicily-1486/">Oct 7 2012</a></time>
+      
+      
+  
+    <h1 class="title">Sicily 1486. 统计数字</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>不想说什么了。。。做这个题我4次TLE！！！</p>
+<img src="/images/Sicily_1486.png">
+
+
+<a name="more"></a>
+
+<p>得到的教训有：</p>
+<ul>
+<li><p>这道题其实难度不大，但是特别坑人，就像这位<a href="http://blog.csdn.net/chenhq1991/article/details/7758850">校友</a>说的一样。</p>
+</li>
+<li><p>stdlib的qsort比algorithm的sort方法慢。相同情况下，我用qsort超时，sort则没事，难道是我使用qsort的方式不对？</p>
+</li>
+<li><p>关于输出什么的我就不说了，虽然4次TLE，但没有PE嘻嘻~</p>
+</li>
+<li><p>我最先采用的算法是每次用二分查找位置，然后插入，使得每次插入后数组都是有序的。这个会超时。然后对200000个数组排序就不超时？我现在对这个运行时间还是没有概念。所以当一条路走不通的时候，不要死磕，快速转换找新的方法。</p>
+</li>
+<li><p>最后要说的是同一个阴沟了第n次翻船了，就是用qsort的时候要加stdlib.h，否则提交到Sicily上会CE。</p>
+</li>
+</ul>
+<p>最后贴个代码，代码很简单。</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, index=<span class="number">0</span>;
+    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; n){
+        <span class="keyword">int</span> *arr = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];
+        <span class="keyword">if</span>(index &gt; <span class="number">0</span>){
+            printf(<span class="string">"\n"</span>);
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; n; i++){
+            scanf(<span class="string">"%d"</span>, &amp;arr[i]);
+        }
+
+        sort(arr, arr+n);
+        <span class="keyword">int</span> cnt = <span class="number">1</span>;
+        arr[n] = -<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; n; i++){
+            <span class="keyword">if</span>(arr[i] == arr[i+<span class="number">1</span>]){
+                cnt++;
+            }<span class="keyword">else</span>{
+                printf(<span class="string">"%d %d\n"</span>, arr[i], cnt);
+                cnt = <span class="number">1</span>;
+            }
+        }
+        <span class="keyword">delete</span> []arr;
+        index++;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+
+</pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/07/sicily-1153/" class="prev" title="sicily 1153. 马周游问题"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/06/sicily-2501/" class="next" title="Sicily 2501. 算算式"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,209 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微信公众平台开发入门 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="注册
+
+注册地址
+
+帐号需要实名认证，需要身份证号、带身份证的近照等隐私信息。
+
+一个帐号只能有一个公众号，并且公众号名字一旦设定，无法修改。
+
+公众号需要进行审核，一般1-2天即可完成。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="微信公众平台开发入门"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-05-21T14:34:39.000Z"><a href="/2013/05/21/weixin_development/">May 21 2013</a></time>
+      
+      
+  
+    <h1 class="title">微信公众平台开发入门</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>注册</h2>
+<ul>
+<li><p><a href="https://mp.weixin.qq.com/cgi-bin/readtemplate?t=wxm2-realname-reg&amp;lang=zh_CN">注册地址</a></p>
+</li>
+<li><p>帐号需要实名认证，需要身份证号、带身份证的近照等隐私信息。</p>
+</li>
+<li><p>一个帐号只能有一个公众号，并且公众号名字一旦设定，无法修改。</p>
+</li>
+<li><p>公众号需要进行审核，一般1-2天即可完成。</p>
+</li>
+</ul>
+<a name="more"></a>
+
+<h2>高级功能解锁</h2>
+<ul>
+<li>审核完毕后，菜单栏会多出一个高级功能选项，如下图所示：</li>
+</ul>
+<p><img src="/images/weixin1.jpg" alt="新菜单截图"></p>
+<ul>
+<li>高级功能有编辑模式和开发模式</li>
+</ul>
+<p><img src="/images/weixin2.jpg" alt="高级功能"></p>
+<p>编辑模式只是提供了简单的编辑功能，可定制性比较差，咱们需要开启开发模式。</p>
+<h2>开启开发模式</h2>
+<p>开发模式的开启要有开发者认证，前提之一是需要你拥有自己的服务器资源。有了服务器之后，如果不考虑安全因素的话，在相应的链接下放入以下简单一行代码即可。</p>
+<p>这里也可以拿微信给出的<a href="http://mp.weixin.qq.com/mpres/htmledition/res/wx_sample.zip">例子</a>，放到服务器上，应该就可以通过验证。</p>
+<p>参考<a href="http://mp.weixin.qq.com/wiki/index.php?title=%E6%B6%88%E6%81%AF%E6%8E%A5%E5%8F%A3%E6%8C%87%E5%8D%97">文档网址接入部分</a>。</p>
+<figure class="highlight lang-php"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="preprocessor">&lt;?php</span>
+    <span class="keyword">echo</span> <span class="variable">$_GET</span>[<span class="string">"echostr"</span>];
+<span class="preprocessor">?&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>你将看到这样的信息：</p>
+<p><img src="/images/weixin4.jpg" alt="开发者"></p>
+<p>微信公众平台的简单开发很容易，看官方的那个Sample就可以明白，只要按照微信给的消息格式，就可以了。</p>
+<p>最后贴一个Demo帐号，简单实现了操作系统课程的作业查询。</p>
+<p><img src="/images/weixin5.jpg" alt="操作系统课程小助手"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/WeChat/">WeChat</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2013/06/04/weixin_development_auth/" class="prev" title="微信公众平台自定义用户组的简单实现"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2013/04/10/thanks-to-hexo/" class="next" title="用上Hexo啦啦啦"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

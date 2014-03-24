@@ -1,0 +1,187 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>问题，解决！之Django | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="记录下Django开发中遇到的一系列问题。
+
+1. Cannot add or update a child row: a foreign key constraint fails
+
+
+表的引擎类型不一样，改为统一的类型就好了。Alter table &lt;tablename&gt; engine">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="问题，解决！之Django"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-11-24T09:03:03.000Z"><a href="/2011/11/24/problems-solving-django/">Nov 24 2011</a></time>
+      
+      
+  
+    <h1 class="title">问题，解决！之Django</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>记录下Django开发中遇到的一系列问题。</p>
+</blockquote>
+<h2>1. Cannot add or update a child row: a foreign key constraint fails</h2>
+<p><img src="http://i.imgur.com/ROeuinG.png" alt="错误截图"></p>
+<ul>
+<li><p>表的引擎类型不一样，改为统一的类型就好了。<code>Alter table &lt;tablename&gt; engine=&lt;engine_type&gt;</code></p>
+</li>
+<li><p>参考：<a href="http://stackoverflow.com/questions/6178816/django-cannot-add-or-update-a-child-row-a-foreign-key-constraint-fails">StackOverflow</a>，非常感谢！</p>
+</li>
+<li><p>当<code>syncdb</code>时遇到<code>Can&#39;t create table</code>blabla的错误也可以用这种方法解决。</p>
+</li>
+</ul>
+<h2>2. AttributeError: &#39;unicode&#39; object has no attribute &#39;_meta&#39;</h2>
+<blockquote>
+<p>ForeignKey, ManyToManyField and OneToOneField require the first argument to be a model class, so use the verbose_name keyword argument.</p>
+</blockquote>
+<p>所以，显示地加上verbose_name就好了，如：</p>
+<pre><code><figure class="highlight"><pre>    poll = models<span class="variable">.ForeignKey</span>(Poll, verbose_name=<span class="string">"the related poll"</span>)
+    sites = models<span class="variable">.ManyToManyField</span>(Site, verbose_name=<span class="string">"list of sites"</span>)
+    place = models<span class="variable">.OneToOneField</span>(Place, verbose_name=<span class="string">"related place"</span>)
+</pre></figure></code></pre>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Django/">Django</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/05/01/trans-sms-from-sybiam-to-android/" class="prev" title="将短信从塞班系统转移到Android"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2011/08/25/deploy-django-to-apache-under-windows/" class="next" title="Windows底下基于Apache部署Django应用"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

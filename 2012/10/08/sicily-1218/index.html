@@ -1,0 +1,324 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>sicily 1218.纪念邮票 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="题目地址：http://soj.me/1218
+
+解题心得：首先最容易想到的是，从1遍历到N，既然知道了a,m，就可以解方程得出b，然后这样的时间复杂度应该是O(N)，但是写完才发现N最大可以取10^9 于是就简单试了下，果然好长时间没反应。
+
+
+然后就这样放着过了一天，今天中午突然来了灵感，其实不就是求M的约数吗？连续的数相加，都可以表示为两个整数的乘积。
+然后又开始写啊写。第一次提交CE。。。原来用了sqrt没加math；第二次提交继续CE，原来是用了qsort没加stalib.h;第三次提交WA,调试发现有些东西没注意，改之。再提交RE，然后就纠结了，不断调试，用各种数据测试。两次RE后，总算AC了。好艰难！
+例行晒下我的辉煌战绩！">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="sicily 1218.纪念邮票"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-08T09:25:00.000Z"><a href="/2012/10/08/sicily-1218/">Oct 8 2012</a></time>
+      
+      
+  
+    <h1 class="title">sicily 1218.纪念邮票</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><p>题目地址：<a href="http://soj.me/1218"><a href="http://soj.me/1218">http://soj.me/1218</a></a></p>
+</li>
+<li><p>解题心得：首先最容易想到的是，从1遍历到N，既然知道了a,m，就可以解方程得出b，然后这样的时间复杂度应该是O(N)，但是写完才发现N最大可以取10^9 于是就简单试了下，果然好长时间没反应。</p>
+</li>
+</ul>
+<p>然后就这样放着过了一天，今天中午突然来了灵感，其实不就是求M的约数吗？连续的数相加，都可以表示为两个整数的乘积。</p>
+<p>然后又开始写啊写。第一次提交CE。。。原来用了sqrt没加math；第二次提交继续CE，原来是用了qsort没加stalib.h;第三次提交WA,调试发现有些东西没注意，改之。再提交RE，然后就纠结了，不断调试，用各种数据测试。两次RE后，总算AC了。好艰难！</p>
+<p>例行晒下我的辉煌战绩！</p>
+<img src="/images/sicily1218.png">
+
+<a name="more"></a>
+
+<p>最后贴个不忍卒读的代码，改的次数太多了。。。</p>
+<figure class="highlight lang-cpp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+</pre></td><td class="code"><pre><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;math.h&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">struct</span> pairs{
+    <span class="keyword">int</span> a;
+    <span class="keyword">int</span> b;
+}p[<span class="number">400</span>];
+
+<span class="keyword">int</span> compare(<span class="keyword">const</span> <span class="keyword">void</span>*a, <span class="keyword">const</span> <span class="keyword">void</span>*b){
+    pairs pa = *(pairs*)a;
+    pairs pb = *(pairs*)b;
+    <span class="keyword">return</span> pa.a - pb.a;
+}
+
+<span class="keyword">int</span> dArr[<span class="number">400</span>];
+<span class="keyword">int</span> getDivisors(<span class="keyword">int</span> m, <span class="keyword">int</span> n){
+    <span class="keyword">int</span> temp = sqrt((<span class="keyword">double</span>)m);
+    <span class="keyword">int</span> max = temp, ret = <span class="number">0</span>;
+    dArr[ret++] = <span class="number">1</span>;
+    dArr[ret++] = m;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i &lt;= max+<span class="number">1</span> &amp;&amp; i &lt;= n; i++){
+        <span class="keyword">if</span>(m % i == <span class="number">0</span>){
+            dArr[ret++] = i;
+            dArr[ret++] = m / i;
+        }
+    }
+    <span class="keyword">return</span> ret;
+}
+
+<span class="keyword">int</span> main(<span class="keyword">void</span>){
+    <span class="keyword">int</span> n, m;
+    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    <span class="keyword">if</span>(n &gt; m) n = m;
+    <span class="keyword">int</span> len = getDivisors(m, n), index=<span class="number">0</span>, temp, d, tempa, tempb;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; len; i = i + <span class="number">1</span>){
+        d = m / dArr[i];
+        temp = d * <span class="number">2</span> + dArr[i] - <span class="number">1</span>;
+        <span class="keyword">if</span>(temp % <span class="number">2</span> == <span class="number">0</span>){
+            tempa = dArr[i] - temp / <span class="number">2</span>;
+            <span class="keyword">if</span>(tempa == <span class="number">0</span>) tempa = <span class="number">1</span>;
+            tempb = temp / <span class="number">2</span>;
+            <span class="keyword">if</span>(tempb &lt;= n &amp;&amp; tempa &lt;= tempb &amp;&amp; tempa &gt; <span class="number">0</span>){
+                p[index].a = tempa;
+                p[index++].b = tempb;
+            }
+        }
+        temp = <span class="number">2</span> * dArr[i] + d - <span class="number">1</span>;
+        <span class="keyword">if</span>(temp % <span class="number">2</span> == <span class="number">0</span>){
+            tempa = <span class="number">2</span> * dArr[i] - temp / <span class="number">2</span>;
+            <span class="keyword">if</span>(tempa == <span class="number">0</span>) tempa = <span class="number">1</span>;
+            tempb = temp / <span class="number">2</span>;
+            <span class="keyword">if</span>( tempb &lt;= n &amp;&amp; tempa &lt;= tempb &amp;&amp; tempa &gt;= <span class="number">0</span>){
+                p[index].a = tempa;
+                p[index++].b = tempb;
+            }
+        }
+
+    }
+    qsort(p, index, <span class="keyword">sizeof</span>(pairs), compare);
+
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; index; i++){
+        printf(<span class="string">"[%d,%d]\n"</span>, p[i].a, p[i].b);
+        <span class="keyword">while</span>(i &lt; index &amp;&amp; p[i].a == p[i+<span class="number">1</span>].a){
+            i++;
+        }
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Sicily/">Sicily</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2012/10/09/sicily-1155/" class="prev" title="Sicily 1155. Can I Post the letter"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2012/10/07/sicily-1153/" class="next" title="sicily 1153. 马周游问题"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+

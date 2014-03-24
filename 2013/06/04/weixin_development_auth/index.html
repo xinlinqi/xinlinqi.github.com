@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微信公众平台自定义用户组的简单实现 | xinlinqi | 要做个好人</title>
+  <meta name="author" content="xinlinqi">
+  
+  <meta name="description" content="前言
+大部分拥有自己用户系统的站点都会有用户权限管理，用来设置不同用户组的访问权限。微信公众平台的用户，其认证自然是通过登录微信这个移动APP实现的。但是这只是简单的认证而已，没有权限管理功能。
+微信公众平台
+微信公众平台的大致流程如下所示：">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="微信公众平台自定义用户组的简单实现"/>
+  <meta property="og:site_name" content="xinlinqi"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="xinlinqi" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><a href="/" class="alignleft">
+	<img class="avatar" src="http://www.gravatar.com/avatar/d821e7a3f2016faad84df55097123f6c.png" title="xinlinqi | 要做个好人">
+</a>
+<nav id="main-nav" class="alignleft clearfix">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/desire">Desires</a></li>
+    
+      <li><a href="/works">Works</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  
+    
+
+<article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-06-04T03:34:39.000Z"><a href="/2013/06/04/weixin_development_auth/">Jun 4 2013</a></time>
+      
+      
+  
+    <h1 class="title">微信公众平台自定义用户组的简单实现</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2>前言</h2>
+<p>大部分拥有自己用户系统的站点都会有用户权限管理，用来设置不同用户组的访问权限。微信公众平台的用户，其认证自然是通过登录微信这个移动APP实现的。但是这只是简单的认证而已，没有权限管理功能。</p>
+<h2>微信公众平台</h2>
+<p>微信公众平台的大致流程如下所示：</p>
+<p><img src="/images/20130604134541.png" alt="微信公众平台的大致流程"></p>
+<a name="more"></a>
+
+<h2>微信公众平台的用户组</h2>
+<p><a href="https://mp.weixin.qq.com">微信公众平台</a>已经提供了用户管理，可以对用户进行分组：</p>
+<p><img src="/images/20130604121357.png" alt="微信公众平台的用户管理"></p>
+<p>但是问题是：现阶段，我们并不能从公众平台的API获得用户的分组信息。更准确的说，我们只能获取公众号粉丝的微信ID。</p>
+<h2>那该怎么做</h2>
+<p>我的想法很简单，用户管理这一块自己来做。每当一个新的微信用户关注（Subscribe事件）我们的帐号时，服务器会根据微信的ID记录下来，相当于一个注册过程：</p>
+<p><img src="/images/20130604123506.png" alt="简单的用户数据表结构图"></p>
+<ul>
+<li><p>由于微信ID和微信用户是一对一关系，所以可以根据微信ID作为唯一键来存储用户信息。</p>
+</li>
+<li><p>关注后系统为用户设置默认用户名（设为微信ID内容）、密码（设为关注密码）、默认用户组。</p>
+</li>
+</ul>
+<p><img src="/images/S30604-123759.jpg" alt="默认用户信息"></p>
+<ul>
+<li>用户可以通过微信修改用户名和密码。</li>
+</ul>
+<p><img src="/images/S30604-124907.jpg" alt="显示用户信息"></p>
+<ul>
+<li>管理员可以在网页端台对用户分组信息进行修改。</li>
+</ul>
+<p><img src="/images/20130604131425.png" alt="网页端登录"></p>
+<p>以此就完成了用户的个性化分组功能。</p>
+<h2>后记</h2>
+<p>最后贴下所用的Demo帐号</p>
+<p><img src="/images/weixin5.jpg" alt="操作系统课程小助手"></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/WeChat/">WeChat</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"ixinlinqi"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->    
+</section>
+
+
+
+<nav id="pagination">
+  
+    <a href="/2013/06/08/new-to-open-weibo/" class="prev" title="微博开放平台之一入门"><span id="prev">Prev</span></a>
+  
+  
+    <a href="/2013/05/21/weixin_development/" class="next" title="微信公众平台开发入门"><span id="next">Next</span></a>
+  
+  <div class="clearfix"></div>
+</nav>
+    
+    </div></div>
+    <div class="clearfix"></div>
+  </div>
+  
+  <footer id="footer" class="inner"><div class="">
+  
+  &copy; 2014 xinlinqi
+  
+ Powered by <a href='http://zespia.tw/hexo/'>Hexo</a>
+ theme by <a href='https://github.com/xinlinqi/hexo-theme-sagi/'>Sagi</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script type="text/javascript" src="/vegas/jquery.vegas.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	var elem = document.createElement('canvas');
+	if(!(elem.getContext && elem.getContext('2d'))){
+		alert("您的浏览器不支持HTML5，页面会错乱。请选择Chrome，Firefox，IE9+以获得更好的浏览体验。");
+	}
+	$.vegas({
+	  src: "http://toolsapp.sinaapp.com/bingwp.php?idx="+Math.floor(Math.random() * 15), fade: 1000
+	})( 'overlay', {
+		src:'/vegas/overlay.png'
+	});
+	$('.fancybox').fancybox();
+	$("#pagination a").on("click", function(){
+		$(this).addClass("loading");
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>
+
